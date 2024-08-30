@@ -1,0 +1,12 @@
+-- Treasure Hunting --
+- Game loop
+- Display & control player character
+- Display background tiles
+- Display objects
+
+-- 2d Action --
+- Monster
+- Battle system
+- NPC
+- inventory
+- events
