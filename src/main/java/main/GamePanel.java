@@ -1,7 +1,11 @@
 package main;
 
+import entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 // Acts as a game screen
 public class GamePanel extends JPanel implements Runnable{
@@ -12,7 +16,7 @@ public class GamePanel extends JPanel implements Runnable{
     // scale current tiles to fit resolution 16*3=48px
     final int scale = 3;
 
-    final int tileSize = originalTitleSize*scale; // 48*48 tile
+    public final int tileSize = originalTitleSize*scale; // 48*48 tile
 
     // 4:3 ratio
     final int maxScreenCol=16;
@@ -25,12 +29,19 @@ public class GamePanel extends JPanel implements Runnable{
 
     final KeyHandler keyH = new KeyHandler();
 
-    int playerX=100,playerY=100,playerSpeed=4;
 
     // refreshes game panel 60 times per second
     Thread gameThread;
 
+    Player player = new Player(this,keyH);
+
+
+    Map<String,Boolean> testing = new HashMap<>();
+
     public GamePanel(){
+
+        init();
+
         // sets the dimension of the screen
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.BLACK);
@@ -44,6 +55,13 @@ public class GamePanel extends JPanel implements Runnable{
         startGameThread();
 //    run();
 
+    }
+
+    public void init(){
+        testing.put("isTesting",true);
+        testing.put("console",true);
+        testing.put("window",true);
+        testing.put("fps",false);
     }
 
     public void startGameThread(){
@@ -83,34 +101,25 @@ public class GamePanel extends JPanel implements Runnable{
                 }
                 catch (Exception e){}
             }
-
             nextDrawTime+=drawInterval;
-            fpsCount+=1;
 
-            // print current fps
-            if(System.currentTimeMillis()-fpsStart>=1000){
-                System.out.println(fpsCount+" fps");
-                fpsCount=0;
-                fpsStart=System.currentTimeMillis();
+            if(testing.get("isTesting") && testing.get("fps")){
+                fpsCount+=1;
+
+                // print current fps
+                if(System.currentTimeMillis()-fpsStart>=1000){
+                    System.out.println(fpsCount+" fps");
+                    fpsCount=0;
+                    fpsStart=System.currentTimeMillis();
+                }
             }
+
 
         }
     }
 
     public void update(){
-
-        if(keyH.pressed.get("up")){
-            playerY-=playerSpeed;
-        } else if (keyH.pressed.get("down")) {
-            playerY+=playerSpeed;
-        }
-
-        if(keyH.pressed.get("left")){
-            playerX-=playerSpeed;
-        } else if (keyH.pressed.get("right")) {
-            playerX+=playerSpeed;
-        }
-
+        player.update();
     }
 
 
@@ -121,8 +130,7 @@ public class GamePanel extends JPanel implements Runnable{
         // Graphics2D extends Graphics and provides more functionality over Graphics
         Graphics2D g2 = (Graphics2D)g;
 
-        g2.setColor(Color.pink);
-        g2.fillRect(playerX,playerY,tileSize,tileSize);
+        player.draw(g2);
 
         // Releases system resources its holding after every frame
         g2.dispose();
