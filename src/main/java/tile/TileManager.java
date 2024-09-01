@@ -17,8 +17,8 @@ public class TileManager {
         // store n different types of tile
         tile = new Tile[50];
 
-        mapTileNum = new int[gp.maxScreenRow][gp.maxScreenCol];
-        loadMap("/maps/test_map.txt");
+        mapTileNum = new int[gp.maxWorldRow][gp.maxWorldCol];
+        loadMap("/maps/world01.txt");
 
         getTileImage();
     }
@@ -31,12 +31,12 @@ public class TileManager {
 
             int row=0,col=0;
 
-            while(row<gp.maxScreenRow){
+            while(row<gp.maxWorldRow){
                 String line = br.readLine();
                 String[] numbers = line.split(" ") ;
 
-                for(String num: numbers){
-                    mapTileNum[row][col] = Integer.parseInt(num);
+                while(col<gp.maxWorldCol){
+                    mapTileNum[row][col] = Integer.parseInt(numbers[col]);
                     col+=1;
                 }
                 row+=1;
@@ -52,13 +52,22 @@ public class TileManager {
     public void getTileImage(){
         try {
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/grass01.png"));
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/grass.png"));
 
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/wall.png"));
 
             tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/water01.png"));
+            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/water.png"));
+
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/earth.png"));
+
+            tile[4] = new Tile();
+            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/tree.png"));
+
+            tile[5] = new Tile();
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/sand.png"));
 
         } catch (Exception e) {
             System.out.println("Getting Tile Image exception");
@@ -67,18 +76,32 @@ public class TileManager {
 
     // Draw tiles to the screen
     public void draw(Graphics2D g){
-        int row=0,col=0;
-        int x=0,y=0;
+        int worldRow=0,worldCol=0;
 
-        while(col<gp.maxScreenCol && row<gp.maxScreenRow){
-            g.drawImage(tile[mapTileNum[row][col]].image,x,y,gp.tileSize,gp.tileSize,null);
-            col++;
-            x+=gp.tileSize;
-            if(col==gp.maxScreenCol){
-                col=0;
-                row++;
-                x=0;
-                y+=gp.tileSize;
+        while(worldCol<gp.maxWorldCol && worldRow<gp.maxWorldRow){
+
+            // Place of tile in the world
+            int worldX = worldRow*gp.tileSize;
+            int worldY = worldCol*gp.tileSize;
+
+            // Place of tile in the screen
+            // Think it as camera/view of the player
+            // Basically tells us how far each tile is from screen
+            // Think it in terms of 1D instead of 2D
+            // (gp.player.worldX+gp.player.screenX) gives us location of the player
+            // forget gp.player.screenX & only look after gp.player.worldX
+            int screenX = (worldX+gp.player.screenX)-gp.player.worldX;
+            int screenY = (worldY+gp.player.screenY)-gp.player.worldY;
+
+
+            if(screenX>-gp.tileSize&& screenY>-gp.tileSize && screenX<gp.screenWidth && screenY<gp.screenHeight){
+                g.drawImage(tile[mapTileNum[worldRow][worldCol]].image,screenX,screenY,gp.tileSize,gp.tileSize,null);
+            }
+
+            worldCol++;
+            if(worldCol==gp.maxWorldCol){
+                worldCol=0;
+                worldRow++;
             }
         }
     }

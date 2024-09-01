@@ -6,10 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Entity {
-    public int x,y,speed;
+    // Entity position on world map
+    public int worldX,worldY;
+    // Position of entity on screen
+    public int screenX,screenY;
+    public int speed;
+    public String direction;
+
     public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
     public Map<String, BufferedImage[]> imageMap = new HashMap<>();
-    public String direction;
 
     public int spriteNum=0,spriteCounter=0;
 
