@@ -16,6 +16,7 @@ public abstract class Entity {
 
     // stores x,y,width,height
     public Rectangle solidArea;
+    public int solidAreaDefaultX,solidAreaDefaultY;
     public boolean collisionOn = false;
 
     public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;

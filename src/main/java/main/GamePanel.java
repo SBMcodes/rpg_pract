@@ -51,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     TileManager tileManager = new TileManager(this);
 
-    Map<String,Boolean> testing = new HashMap<>();
+    public Map<String,Boolean> testing = new HashMap<>();
 
     public SuperObject obj[] = new SuperObject[10];
     public AssetManager assetManager = new AssetManager(this);
@@ -81,10 +81,10 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void init(){
-        testing.put("isTesting",true);
+        testing.put("isTesting",false);
         testing.put("console",true);
         testing.put("window",true);
-        testing.put("fps",true);
+        testing.put("fps",false);
     }
 
     public void startGameThread(){

@@ -12,6 +12,8 @@ public class Player extends Entity{
     KeyHandler keyH;
     BufferedImage image=null;
 
+    int totalKey = 0;
+
     public final int screenX,screenY;
 
     // Getting KeyHandler & GamePanel to update & draw entity
@@ -27,8 +29,11 @@ public class Player extends Entity{
         screenX = halfWidth - halfTileSize;
         screenY= halfHeight - halfTileSize;
 
-        solidArea = new Rectangle(8,16,gp.tileSize-16,gp.tileSize-16);
+        solidArea = new Rectangle(12,16,gp.tileSize-20,gp.tileSize-20);
+        solidAreaDefaultX=solidArea.x;
+        solidAreaDefaultY=solidArea.y;
         this.collisionOn=false;
+
 
         setDefaultValues();
         getPlayerImage();
@@ -89,6 +94,11 @@ public class Player extends Entity{
             // Check if collision exists
             collisionOn=false;
             gp.cChecker.checkTile(this);
+            int idx = gp.cChecker.checkObject(this,true);
+
+            if(idx!=-1){
+                interactObj(idx);
+            }
 
             if(!this.collisionOn){
                 switch (direction){
@@ -123,7 +133,19 @@ public class Player extends Entity{
         else{
             spriteCounter=6;
         }
+    }
 
+    public void interactObj(int idx){
+        if(gp.obj[idx].name=="key"){
+            gp.obj[idx] = null;
+            totalKey+=1;
+        }
+        else if(gp.obj[idx].name=="door"){
+            if(totalKey>0){
+                totalKey-=1;
+                gp.obj[idx]=null;
+            }
+        }
     }
 
     public void draw(Graphics2D g){
@@ -146,9 +168,10 @@ public class Player extends Entity{
         }
         // ImageObserver: null
         g.drawImage(image,screenX,screenY,gp.tileSize,gp.tileSize,null);
-//        g.setColor(Color.RED);
-//        g.fillRect(screenX+solidArea.x,screenY+solidArea.x,solidArea.width,solidArea.height);
-
+        if(gp.testing.get("isTesting") && gp.testing.get("window")){
+            g.setColor(Color.RED);
+            g.fillRect(screenX+solidArea.x,screenY+solidArea.x,solidArea.width,solidArea.height);
+        }
     }
 
 }
