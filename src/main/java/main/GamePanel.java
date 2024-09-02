@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -52,10 +53,13 @@ public class GamePanel extends JPanel implements Runnable{
 
     Map<String,Boolean> testing = new HashMap<>();
 
+    public SuperObject obj[] = new SuperObject[10];
+    public AssetManager assetManager = new AssetManager(this);
 
     public GamePanel(){
 
         init();
+        setupGame();
 
         // sets the dimension of the screen
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -72,11 +76,15 @@ public class GamePanel extends JPanel implements Runnable{
 
     }
 
+    public void setupGame(){
+        assetManager.setObject();
+    }
+
     public void init(){
         testing.put("isTesting",true);
         testing.put("console",true);
         testing.put("window",true);
-        testing.put("fps",false);
+        testing.put("fps",true);
     }
 
     public void startGameThread(){
@@ -145,7 +153,18 @@ public class GamePanel extends JPanel implements Runnable{
         // Graphics2D extends Graphics and provides more functionality over Graphics
         Graphics2D g2 = (Graphics2D)g;
 
+
+        // Tiles
         tileManager.draw(g2);
+
+        // Objects
+        for (SuperObject o : obj){
+            if(o!=null){
+                o.draw(g2,this);
+            }
+        }
+
+        // Player
         player.draw(g2);
 
         // Releases system resources its holding after every frame

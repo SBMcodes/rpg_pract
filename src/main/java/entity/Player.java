@@ -146,6 +146,9 @@ public class Player extends Entity{
         }
         // ImageObserver: null
         g.drawImage(image,screenX,screenY,gp.tileSize,gp.tileSize,null);
+//        g.setColor(Color.RED);
+//        g.fillRect(screenX+solidArea.x,screenY+solidArea.x,solidArea.width,solidArea.height);
+
     }
 
 }
