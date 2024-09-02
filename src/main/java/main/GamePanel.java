@@ -56,6 +56,8 @@ public class GamePanel extends JPanel implements Runnable{
     public SuperObject obj[] = new SuperObject[10];
     public AssetManager assetManager = new AssetManager(this);
 
+    Sound sound = new Sound();
+
     public GamePanel(){
 
         init();
@@ -72,6 +74,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
 
         startGameThread();
+        playMusic(0);
 //    run();
 
     }
@@ -171,7 +174,20 @@ public class GamePanel extends JPanel implements Runnable{
         g2.dispose();
     }
 
+    public void playMusic(int idx){
+        sound.setFile(idx);
+        sound.play();
+        sound.loop();
+    }
 
+    public void stopMusic(){
+        sound.stop();
+    }
+
+    public void playSoundEffect(int idx){
+        sound.setFile(idx);
+        sound.play();
+    }
 
 
 }

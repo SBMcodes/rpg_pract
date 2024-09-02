@@ -139,12 +139,19 @@ public class Player extends Entity{
         if(gp.obj[idx].name=="key"){
             gp.obj[idx] = null;
             totalKey+=1;
+            gp.playSoundEffect(1);
         }
         else if(gp.obj[idx].name=="door"){
             if(totalKey>0){
                 totalKey-=1;
                 gp.obj[idx]=null;
+                gp.playSoundEffect(3);
             }
+        }
+        else if(gp.obj[idx].name=="boots"){
+            this.speed+=2;
+            gp.obj[idx]=null;
+            gp.playSoundEffect(2);
         }
     }
 
