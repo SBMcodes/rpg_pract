@@ -33,6 +33,8 @@ public class GamePanel extends JPanel implements Runnable{
     public final int worldWidth = maxWorldCol*tileSize; // 768px
     public final int worldHeight = maxWorldRow*tileSize;
 
+    public final CollisionChecker cChecker = new CollisionChecker(this);
+
 
     final int FPS = 60;
 

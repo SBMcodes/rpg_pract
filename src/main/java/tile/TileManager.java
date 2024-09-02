@@ -10,8 +10,8 @@ import java.io.InputStreamReader;
 
 public class TileManager {
     GamePanel gp;
-    Tile[] tile;
-    int[][] mapTileNum;
+    public Tile[] tile;
+    public int[][] mapTileNum;
     public TileManager(GamePanel gp){
         this.gp=gp;
         // store n different types of tile
@@ -39,12 +39,13 @@ public class TileManager {
                     mapTileNum[row][col] = Integer.parseInt(numbers[col]);
                     col+=1;
                 }
+
                 row+=1;
                 col=0;
             }
 
         } catch (Exception e) {
-            System.out.println();
+            System.out.println("Error loading map...!");
         }
     }
 
@@ -54,16 +55,16 @@ public class TileManager {
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/grass.png"));
 
-            tile[1] = new Tile();
+            tile[1] = new Tile(true);
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/wall.png"));
 
-            tile[2] = new Tile();
+            tile[2] = new Tile(true);
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/water.png"));
 
             tile[3] = new Tile();
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/earth.png"));
 
-            tile[4] = new Tile();
+            tile[4] = new Tile(true);
             tile[4].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/tree.png"));
 
             tile[5] = new Tile();
@@ -81,8 +82,8 @@ public class TileManager {
         while(worldCol<gp.maxWorldCol && worldRow<gp.maxWorldRow){
 
             // Place of tile in the world
-            int worldX = worldRow*gp.tileSize;
-            int worldY = worldCol*gp.tileSize;
+            int worldX = worldCol*gp.tileSize;
+            int worldY = worldRow*gp.tileSize;
 
             // Place of tile in the screen
             // Think it as camera/view of the player
