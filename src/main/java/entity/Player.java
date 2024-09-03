@@ -12,7 +12,7 @@ public class Player extends Entity{
     KeyHandler keyH;
     BufferedImage image=null;
 
-    int totalKey = 0;
+    public int totalKey = 0;
 
     public final int screenX,screenY;
 
@@ -136,22 +136,32 @@ public class Player extends Entity{
     }
 
     public void interactObj(int idx){
-        if(gp.obj[idx].name=="key"){
-            gp.obj[idx] = null;
-            totalKey+=1;
-            gp.playSoundEffect(1);
-        }
-        else if(gp.obj[idx].name=="door"){
-            if(totalKey>0){
-                totalKey-=1;
-                gp.obj[idx]=null;
-                gp.playSoundEffect(3);
+        switch (gp.obj[idx].name) {
+            case "key" -> {
+                gp.obj[idx] = null;
+                totalKey += 1;
+                gp.playSoundEffect(1);
             }
-        }
-        else if(gp.obj[idx].name=="boots"){
-            this.speed+=2;
-            gp.obj[idx]=null;
-            gp.playSoundEffect(2);
+            case "door" -> {
+                if (totalKey > 0) {
+                    totalKey -= 1;
+                    gp.obj[idx] = null;
+                    gp.playSoundEffect(3);
+                } else {
+                    gp.ui.showMessage("You need a Key!");
+                }
+            }
+            case "boots" -> {
+                this.speed += 2;
+                gp.obj[idx] = null;
+                gp.playSoundEffect(2);
+            }
+            case "chest" -> {
+                gp.obj[idx] = null;
+                gp.isGameOver = true;
+                gp.stopMusic();
+                gp.playSoundEffect(4);
+            }
         }
     }
 

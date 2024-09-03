@@ -39,6 +39,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     final int FPS = 60;
 
+    public boolean isGameOver = false;
 
 
     final KeyHandler keyH = new KeyHandler();
@@ -56,7 +57,11 @@ public class GamePanel extends JPanel implements Runnable{
     public SuperObject obj[] = new SuperObject[10];
     public AssetManager assetManager = new AssetManager(this);
 
+    public UI ui = new UI(this);
+
     Sound sound = new Sound();
+    Sound music = new Sound();
+
 
     public GamePanel(){
 
@@ -75,8 +80,6 @@ public class GamePanel extends JPanel implements Runnable{
 
         startGameThread();
         playMusic(0);
-//    run();
-
     }
 
     public void setupGame(){
@@ -170,18 +173,20 @@ public class GamePanel extends JPanel implements Runnable{
         // Player
         player.draw(g2);
 
+        ui.draw(g2);
+
         // Releases system resources its holding after every frame
         g2.dispose();
     }
 
     public void playMusic(int idx){
-        sound.setFile(idx);
-        sound.play();
-        sound.loop();
+        music.setFile(idx);
+        music.play();
+        music.loop();
     }
 
     public void stopMusic(){
-        sound.stop();
+        music.stop();
     }
 
     public void playSoundEffect(int idx){
