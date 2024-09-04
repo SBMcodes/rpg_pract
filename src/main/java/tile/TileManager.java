@@ -20,7 +20,7 @@ public class TileManager {
         tile = new Tile[50];
 
         mapTileNum = new int[gp.maxWorldRow][gp.maxWorldCol];
-        loadMap("/maps/world01.txt");
+        loadMap("/maps/worldV2.txt");
 
         getTileImage();
     }
@@ -56,12 +56,59 @@ public class TileManager {
         try {
 
 
-            setImage(0,"/images/tiles/grass.png",false);
-            setImage(1,"/images/tiles/wall.png",true);
-            setImage(2,"/images/tiles/water.png",true);
-            setImage(3,"/images/tiles/earth.png",false);
-            setImage(4,"/images/tiles/tree.png",true);
-            setImage(5,"/images/tiles/sand.png",false);
+            // We are using 0-9 as placeholder as we are not to use single digit number in our map
+            setImage(0,"grass00",false);
+            setImage(1,"grass00",false);
+            setImage(2,"grass00",false);
+            setImage(3,"grass00",false);
+            setImage(4,"grass00",false);
+            setImage(5,"grass00",false);
+            setImage(6,"grass00",false);
+            setImage(7,"grass00",false);
+            setImage(8,"grass00",false);
+            setImage(9,"grass00",false);
+
+            setImage(10,"grass00",false);
+            setImage(11,"grass01",false);
+            setImage(12,"water00",true);
+            setImage(13,"water01",true);
+            setImage(14,"water02",true);
+            setImage(15,"water03",true);
+            setImage(16,"water04",true);
+            setImage(17,"water05",true);
+            setImage(18,"water06",true);
+            setImage(19,"water07",true);
+            setImage(20,"water08",true);
+            setImage(21,"water09",true);
+            setImage(22,"water10",true);
+            setImage(23,"water11",true);
+            setImage(24,"water12",true);
+            setImage(25,"water13",true);
+            setImage(26,"road00",false);
+            setImage(27,"road01",false);
+            setImage(28,"road02",false);
+            setImage(29,"road03",false);
+            setImage(30,"road04",false);
+            setImage(31,"road05",false);
+            setImage(32,"road06",false);
+            setImage(33,"road07",false);
+            setImage(34,"road08",false);
+            setImage(35,"road09",false);
+            setImage(36,"road10",false);
+            setImage(37,"road11",false);
+            setImage(38,"road12",false);
+            setImage(39,"earth",false);
+            setImage(40,"wall",true);
+            setImage(41,"tree",true);
+
+
+
+
+
+
+
+
+
 
         } catch (Exception e) {
             System.out.println("Getting Tile Image exception");
@@ -71,7 +118,7 @@ public class TileManager {
     public void setImage(int idx,String imagePath,boolean collision){
         try {
             tile[idx] = new Tile(collision);
-            tile[idx].image = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            tile[idx].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/"+imagePath+".png"));
             // Optimizing images by not scaling it in loop & scaling it previously
             tile[idx].image = UtilityTool.scaleImage(tile[idx].image,gp.tileSize,gp.tileSize);
 
