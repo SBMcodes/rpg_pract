@@ -4,6 +4,7 @@ import object.OBJ_Key;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 
 public class UI {
@@ -23,7 +24,7 @@ public class UI {
         this.gp=gp;
         this.arial_40 = new Font("Arial",Font.PLAIN,30);
         this.arial_60b = new Font("Arial",Font.BOLD,60);
-        image = new OBJ_Key().image;
+        image = new OBJ_Key(gp).image;
     }
 
     public void draw(Graphics2D g){

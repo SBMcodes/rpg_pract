@@ -1,0 +1,20 @@
+- Game State
+- NPC & Dialogue System
+- Player status (life,level,attack,defence,exp)
+- Monsters(Simple AI -- A*) & Battle system(hit detection)
+- Inventory
+- Player & Monster projectiles
+- Merchant NPC (Trade Items - Buy/Sell)
+- Title screen , Game Over screen
+- Cutting Tree with axe (Particle effect)
+
+- Item Drop
+- In Game Menu
+- New area (Map transition)
+- Events (Boss fights etc.)
+- Save/Load
+- End Screen
+
+- Map & Mini Map
+- Lighting System
+- Boss Fight & Cutscene

@@ -1,9 +1,11 @@
 package tile;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -52,26 +54,29 @@ public class TileManager {
     // Read Tile Images
     public void getTileImage(){
         try {
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/grass.png"));
 
-            tile[1] = new Tile(true);
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/wall.png"));
 
-            tile[2] = new Tile(true);
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/water.png"));
-
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/earth.png"));
-
-            tile[4] = new Tile(true);
-            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/tree.png"));
-
-            tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/images/tiles/sand.png"));
+            setImage(0,"/images/tiles/grass.png",false);
+            setImage(1,"/images/tiles/wall.png",true);
+            setImage(2,"/images/tiles/water.png",true);
+            setImage(3,"/images/tiles/earth.png",false);
+            setImage(4,"/images/tiles/tree.png",true);
+            setImage(5,"/images/tiles/sand.png",false);
 
         } catch (Exception e) {
             System.out.println("Getting Tile Image exception");
+        }
+    }
+
+    public void setImage(int idx,String imagePath,boolean collision){
+        try {
+            tile[idx] = new Tile(collision);
+            tile[idx].image = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            // Optimizing images by not scaling it in loop & scaling it previously
+            tile[idx].image = UtilityTool.scaleImage(tile[idx].image,gp.tileSize,gp.tileSize);
+
+        } catch (Exception e) {
+            System.out.println("Loading Tile Failed!");
         }
     }
 
@@ -96,7 +101,9 @@ public class TileManager {
 
 
             if(screenX>-gp.tileSize&& screenY>-gp.tileSize && screenX<gp.screenWidth && screenY<gp.screenHeight){
-                g.drawImage(tile[mapTileNum[worldRow][worldCol]].image,screenX,screenY,gp.tileSize,gp.tileSize,null);
+//                g.drawImage(tile[mapTileNum[worldRow][worldCol]].image,screenX,screenY,gp.tileSize,gp.tileSize,null);
+                // Optimized it by removing the scaling
+                g.drawImage(tile[mapTileNum[worldRow][worldCol]].image,screenX,screenY,null);
             }
 
             worldCol++;

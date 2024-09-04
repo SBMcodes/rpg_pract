@@ -25,6 +25,9 @@ public class Sound {
             clip.open(ais);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-10f);
+            if(!Settings.sound){
+                gainControl.setValue(-50f);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Setting Audio Error");

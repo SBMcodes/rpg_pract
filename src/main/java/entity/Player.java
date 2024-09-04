@@ -2,10 +2,12 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Player extends Entity{
     GamePanel gp;
@@ -48,14 +50,15 @@ public class Player extends Entity{
 
     public void getPlayerImage(){
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/images/player/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/images/player/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/images/player/boy_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/images/player/boy_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/images/player/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/images/player/boy_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/images/player/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/images/player/boy_right_2.png"));
+            up1 = setImage("/images/player/boy_up_1.png");
+            up2 = setImage("/images/player/boy_up_2.png");
+            down1 = setImage("/images/player/boy_down_1.png");
+            down2 = setImage("/images/player/boy_down_2.png");
+
+            left1 = setImage("/images/player/boy_left_1.png");
+            left2 = setImage("/images/player/boy_left_2.png");
+            right1 = setImage("/images/player/boy_right_1.png");
+            right2 = setImage("/images/player/boy_right_2.png");
 
             BufferedImage[] up = {up1,up2};
             BufferedImage[] down = {down1,down2};
@@ -73,6 +76,17 @@ public class Player extends Entity{
             e.printStackTrace();
             System.out.println("Error Fetching Image!");
         }
+    }
+
+    public BufferedImage setImage(String imagePath){
+        BufferedImage img=null;
+        try{
+            img = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            img = UtilityTool.scaleImage(img,gp.tileSize,gp.tileSize);
+        } catch (IOException e) {
+            System.out.println("Error loading player image!");
+        }
+        return img;
     }
 
     public void update(){
@@ -184,7 +198,7 @@ public class Player extends Entity{
                 break;
         }
         // ImageObserver: null
-        g.drawImage(image,screenX,screenY,gp.tileSize,gp.tileSize,null);
+        g.drawImage(image,screenX,screenY,null);
         if(gp.testing.get("isTesting") && gp.testing.get("window")){
             g.setColor(Color.RED);
             g.fillRect(screenX+solidArea.x,screenY+solidArea.x,solidArea.width,solidArea.height);
