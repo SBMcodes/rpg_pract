@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable{
     public boolean isGameOver = false;
 
 
-    final KeyHandler keyH = new KeyHandler();
+    final KeyHandler keyH = new KeyHandler(this);
 
 
     // refreshes game panel 60 times per second
@@ -61,6 +61,11 @@ public class GamePanel extends JPanel implements Runnable{
 
     Sound sound = new Sound();
     Sound music = new Sound();
+
+    // GameState
+    public int gameState;
+    public final int playState=1;
+    public final int pauseState=2;
 
 
     public GamePanel(){
@@ -84,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         assetManager.setObject();
+        gameState = playState;
     }
 
     public void init(){
@@ -148,7 +154,12 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
+        if(this.gameState==this.playState){
         player.update();
+        }
+        else if(this.gameState==this.pauseState){
+
+        }
     }
 
 

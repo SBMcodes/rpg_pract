@@ -6,7 +6,7 @@
 - Player & Monster projectiles
 - Merchant NPC (Trade Items - Buy/Sell)
 - Title screen , Game Over screen
-- Cutting Tree with axe (Particle effect)
+- Environment interaction -- Cutting Tree with axe (Particle effect)
 
 - Item Drop
 - In Game Menu

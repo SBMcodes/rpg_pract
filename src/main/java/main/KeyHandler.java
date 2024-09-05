@@ -9,8 +9,10 @@ import java.util.Map;
 public class KeyHandler implements KeyListener {
 
     public Map<String,Boolean> pressed = new HashMap<>();
+    GamePanel gp;
 
-    public KeyHandler(){
+    public KeyHandler(GamePanel gp){
+        this.gp=gp;
         pressed.put("up",false);
         pressed.put("down",false);
         pressed.put("left",false);
@@ -35,6 +37,14 @@ public class KeyHandler implements KeyListener {
         }
         else if(code==KeyEvent.VK_D){
             pressed.replace("right",true);
+        }
+        else if(code==KeyEvent.VK_ESCAPE){
+            if(gp.gameState== gp.playState){
+                gp.gameState=gp.pauseState;
+            }
+            else if(gp.gameState==gp.pauseState){
+                gp.gameState=gp.playState;
+            }
         }
     }
 
