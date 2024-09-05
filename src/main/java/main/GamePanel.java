@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import entity.Player;
 import object.SuperObject;
 import tile.TileManager;
@@ -49,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
 
     public Player player = new Player(this,keyH);
+    public Entity[] npc = new Entity[10];
 
     TileManager tileManager = new TileManager(this);
 
@@ -89,6 +91,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         assetManager.setObject();
+        assetManager.setNPC();
         gameState = playState;
     }
 
@@ -156,6 +159,11 @@ public class GamePanel extends JPanel implements Runnable{
     public void update(){
         if(this.gameState==this.playState){
         player.update();
+        for(Entity o: npc){
+            if(o!=null){
+                o.update();
+            }
+        }
         }
         else if(this.gameState==this.pauseState){
 
@@ -180,9 +188,17 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
 
+        // NPC
+        for (Entity o : npc){
+            if(o!=null){
+                o.draw(g2);
+            }
+        }
+
         // Player
         player.draw(g2);
 
+        // UI
         ui.draw(g2);
 
         // Releases system resources its holding after every frame

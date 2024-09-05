@@ -6,8 +6,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class SuperObject {
+    public String id;
     public BufferedImage image;
-    public String name;
     public boolean collision = false;
     public int worldX,worldY;
 
@@ -17,7 +17,8 @@ public abstract class SuperObject {
 
     public GamePanel gp;
 
-    public SuperObject(GamePanel gp){
+    public SuperObject(GamePanel gp,String id){
+        this.id=id;
         this.gp=gp;
     }
 

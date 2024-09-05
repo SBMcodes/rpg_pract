@@ -1,9 +1,6 @@
 package main;
 
-import object.OBJ_Boots;
-import object.OBJ_Chest;
-import object.OBJ_Door;
-import object.OBJ_Key;
+import entity.NPC_OldMan;
 
 public class AssetManager {
     public GamePanel gp;
@@ -14,5 +11,9 @@ public class AssetManager {
 
     public void setObject(){
 
+    }
+
+    public void setNPC(){
+        gp.npc[0] = new NPC_OldMan(gp,21*gp.tileSize,21*gp.tileSize);
     }
 }

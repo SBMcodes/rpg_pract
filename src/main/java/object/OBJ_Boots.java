@@ -7,8 +7,7 @@ import javax.imageio.ImageIO;
 
 public class OBJ_Boots extends SuperObject{
     public OBJ_Boots(GamePanel gp){
-        super(gp);
-        name="boots";
+        super(gp,"boots");
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/images/objects/boots.png"));
             image = UtilityTool.scaleImage(image,gp.tileSize,gp.tileSize);

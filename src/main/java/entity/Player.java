@@ -10,17 +10,16 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Entity{
-    GamePanel gp;
+
     KeyHandler keyH;
     BufferedImage image=null;
 
-//    public int totalKey = 0;
 
     public final int screenX,screenY;
 
     // Getting KeyHandler & GamePanel to update & draw entity
     public Player(GamePanel gp,KeyHandler keyH){
-        this.gp=gp;
+        super(gp,"player");
         this.keyH=keyH;
 
         int halfWidth = gp.screenWidth/2;
@@ -78,17 +77,6 @@ public class Player extends Entity{
         }
     }
 
-    public BufferedImage setImage(String imagePath){
-        BufferedImage img=null;
-        try{
-            img = ImageIO.read(getClass().getResourceAsStream(imagePath));
-            img = UtilityTool.scaleImage(img,gp.tileSize,gp.tileSize);
-        } catch (IOException e) {
-            System.out.println("Error loading player image!");
-        }
-        return img;
-    }
-
     public void update(){
 
 
@@ -114,6 +102,12 @@ public class Player extends Entity{
                 interactObj(idx);
             }
 
+            idx = gp.cChecker.checkEntity(this,gp.npc);
+            if(idx!=-1){
+                interactNpc(idx);
+            }
+
+            // If there is no collision player can move
             if(!this.collisionOn){
                 switch (direction){
                     case "up":
@@ -133,16 +127,11 @@ public class Player extends Entity{
 
 
 
-            spriteCounter++;
-            if(spriteCounter>11){
-                spriteCounter=0;
-                if(spriteNum==1){
-                    spriteNum=0;
-                }
-                else {
-                    spriteNum=1;
-                }
-            }
+            // We could also have got the total number of sprite images
+            // using map & then increase it & set it to 0 once it over bounds
+            // but as total number is only 2 per direction so this is also okay
+            // player animation
+            increaseSpriteCounter();
         }
         else{
             spriteCounter=6;
@@ -153,6 +142,12 @@ public class Player extends Entity{
 
     }
 
+    public void interactNpc(int idx){
+        if(gp.npc[idx].id=="old_man"){
+        }
+    }
+
+    @Override
     public void draw(Graphics2D g){
 //        g.setColor(Color.pink);
 //        g.fillRect(x,y,gp.tileSize,gp.tileSize);

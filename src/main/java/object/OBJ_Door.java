@@ -7,8 +7,7 @@ import javax.imageio.ImageIO;
 
 public class OBJ_Door extends SuperObject{
     public OBJ_Door(GamePanel gp){
-        super(gp);
-        name="door";
+        super(gp,"door");
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/images/objects/door.png"));
             image = UtilityTool.scaleImage(image,gp.tileSize,gp.tileSize);

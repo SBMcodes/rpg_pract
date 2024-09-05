@@ -1,12 +1,19 @@
 package entity;
 
+import main.GamePanel;
+import main.UtilityTool;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public abstract class Entity {
+    String id;
     // Entity position on world map
     public int worldX,worldY;
     // Position of entity on screen
@@ -22,6 +29,69 @@ public abstract class Entity {
     public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
     public Map<String, BufferedImage[]> imageMap = new HashMap<>();
 
-    public int spriteNum=0,spriteCounter=0;
+    public int spriteNum=0,spriteCounter=0,actionCounter=0;
 
+    public GamePanel gp;
+
+    public Entity(GamePanel gp,String id){
+        this.id=id;
+        this.gp=gp;
+        solidArea=new Rectangle(0,0,gp.tileSize,gp.tileSize);
+    }
+
+    public BufferedImage setImage(String imagePath){
+        BufferedImage img=null;
+        try{
+            img = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            img = UtilityTool.scaleImage(img,gp.tileSize,gp.tileSize);
+        } catch (IOException e) {
+            System.out.println("Error loading entity image!");
+        }
+        return img;
+    }
+
+    public void setAction(){
+    }
+
+    public void increaseSpriteCounter(){
+        spriteCounter++;
+        if(spriteCounter>11){
+            spriteCounter=0;
+            if(spriteNum==1){
+                spriteNum=0;
+            }
+            else {
+                spriteNum=1;
+            }
+        }
+    }
+
+    public void draw(Graphics2D g){
+        BufferedImage image = null;
+
+        int screenX = (worldX+gp.player.screenX)-gp.player.worldX;
+        int screenY = (worldY+gp.player.screenY)-gp.player.worldY;
+
+        if(screenX>-gp.tileSize&& screenY>-gp.tileSize && screenX<gp.screenWidth && screenY<gp.screenHeight){
+            switch (direction){
+                case "up":
+                    image=imageMap.get("up")[spriteNum];
+                    break;
+                case "down":
+                    image=imageMap.get("down")[spriteNum];
+                    break;
+                case "left":
+                    image=imageMap.get("left")[spriteNum];
+                    break;
+                case "right":
+                    image=imageMap.get("right")[spriteNum];
+                    break;
+            }
+            g.drawImage(image,screenX,screenY,null);
+        }
+    }
+
+    public void update(){
+
+    }
 }

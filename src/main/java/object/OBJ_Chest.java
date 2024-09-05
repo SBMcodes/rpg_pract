@@ -7,8 +7,7 @@ import javax.imageio.ImageIO;
 
 public class OBJ_Chest extends SuperObject{
     public OBJ_Chest(GamePanel gp){
-        super(gp);
-        name="chest";
+        super(gp,"chest");
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/images/objects/chest.png"));
             image = UtilityTool.scaleImage(image,gp.tileSize,gp.tileSize);
