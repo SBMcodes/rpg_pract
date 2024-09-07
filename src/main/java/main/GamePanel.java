@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable{
     public boolean isGameOver = false;
 
 
-    final KeyHandler keyH = new KeyHandler(this);
+    public final KeyHandler keyH = new KeyHandler(this);
 
 
     // refreshes game panel 60 times per second
@@ -66,8 +66,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     // GameState
     public int gameState;
+    public final int titleState = 0;
     public final int playState=1;
     public final int pauseState=2;
+    public final int dialogueState=3;
 
 
     public GamePanel(){
@@ -86,13 +88,13 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
 
         startGameThread();
-        playMusic(0);
+        this.playMusic(0);
     }
 
     public void setupGame(){
         assetManager.setObject();
         assetManager.setNPC();
-        gameState = playState;
+        gameState = titleState;
     }
 
     public void init(){
@@ -166,8 +168,19 @@ public class GamePanel extends JPanel implements Runnable{
         }
         }
         else if(this.gameState==this.pauseState){
+        }
+        else if (this.gameState==this.titleState) {
 
         }
+    }
+
+    public void startNewGame(){
+        this.gameState=this.playState;
+    }
+
+    public void quitGame(){
+        this.gameThread=null;
+        System.exit(0);
     }
 
 
@@ -178,28 +191,34 @@ public class GamePanel extends JPanel implements Runnable{
         // Graphics2D extends Graphics and provides more functionality over Graphics
         Graphics2D g2 = (Graphics2D)g;
 
-        // Tiles
-        tileManager.draw(g2);
-
-        // Objects
-        for (SuperObject o : obj){
-            if(o!=null){
-                o.draw(g2);
-            }
+        if(gameState==titleState){
+            tileManager.drawTitleScreenTiles(g2);
+            ui.draw(g2);
         }
+        else{
+            // Tiles
+            tileManager.draw(g2);
 
-        // NPC
-        for (Entity o : npc){
-            if(o!=null){
-                o.draw(g2);
+            // Objects
+            for (SuperObject o : obj){
+                if(o!=null){
+                    o.draw(g2);
+                }
             }
+
+            // NPC
+            for (Entity o : npc){
+                if(o!=null){
+                    o.draw(g2);
+                }
+            }
+
+            // Player
+            player.draw(g2);
+
+            // UI
+            ui.draw(g2);
         }
-
-        // Player
-        player.draw(g2);
-
-        // UI
-        ui.draw(g2);
 
         // Releases system resources its holding after every frame
         g2.dispose();

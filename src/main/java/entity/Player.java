@@ -45,6 +45,10 @@ public class Player extends Entity{
         worldY=21*gp.tileSize;
         speed=5;
         direction="down";
+
+        // Player status
+        this.maxLife=6;
+        this.life=this.maxLife;
     }
 
     public void getPlayerImage(){
@@ -144,7 +148,12 @@ public class Player extends Entity{
 
     public void interactNpc(int idx){
         if(gp.npc[idx].id=="old_man"){
+            if(gp.keyH.pressed.get("enter")){
+                gp.npc[idx].speak();
+                gp.gameState=gp.dialogueState;
+            }
         }
+        gp.keyH.pressed.replace("enter",false);
     }
 
     @Override

@@ -14,6 +14,7 @@ public class NPC_OldMan extends Entity{
         direction="down";
 
         getImage();
+        setDialogue();
     }
 
     public NPC_OldMan(GamePanel gp,int worldX,int worldY) {
@@ -50,6 +51,18 @@ public class NPC_OldMan extends Entity{
             e.printStackTrace();
             System.out.println("Error Fetching Image!");
         }
+    }
+
+    public void setDialogue(){
+        dialogues[0]="Hello, Adventurer";
+        dialogues[1]="So you want to find the treasure?";
+        dialogues[2]="I used to be a wizard but i am \nnow too old to have an adventure";
+        dialogues[3]="Well Then , Good LUCK!";
+    }
+
+    @Override
+    public void speak(){
+        super.speak();
     }
 
     @Override

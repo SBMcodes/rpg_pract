@@ -169,32 +169,36 @@ public class CollisionChecker {
 
                 switch (entity.direction){
                     case "up":
-                        idx=count;
+
                         entity.solidArea.y-=entity.speed;
                         if(entity.solidArea.intersects(o.solidArea)){
+                            idx=count;
                             entity.collisionOn=true;
                         }
                         break;
                     case "down":
-                        idx=count;
+
                         entity.solidArea.y+=entity.speed;
                         if(entity.solidArea.intersects(o.solidArea)){
+                            idx=count;
                             entity.collisionOn=true;
 
                         }
                         break;
                     case "left":
-                        idx=count;
+
                         entity.solidArea.x-=entity.speed;
                         if(entity.solidArea.intersects(o.solidArea)){
+                            idx=count;
                             entity.collisionOn=true;
 
                         }
                         break;
                     case "right":
-                        idx=count;
+
                         entity.solidArea.x+=entity.speed;
                         if(entity.solidArea.intersects(o.solidArea)){
+                            idx=count;
                             entity.collisionOn=true;
                             }
                         break;

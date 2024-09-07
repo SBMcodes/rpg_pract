@@ -8,9 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public abstract class Entity {
     String id;
@@ -30,6 +28,12 @@ public abstract class Entity {
     public Map<String, BufferedImage[]> imageMap = new HashMap<>();
 
     public int spriteNum=0,spriteCounter=0,actionCounter=0;
+
+    public String[] dialogues = new String[20];
+    int dialogueIndex = 0;
+
+    public int maxLife;
+    public int life;
 
     public GamePanel gp;
 
@@ -63,6 +67,35 @@ public abstract class Entity {
             else {
                 spriteNum=1;
             }
+        }
+    }
+
+    public void speak(){
+        if(dialogues[dialogueIndex]==null){
+            if(dialogues[0]!=null){
+                dialogueIndex=0;
+            }
+            else{
+                return;
+            }
+        }
+        gp.ui.currentDialogue=dialogues[dialogueIndex];
+        dialogueIndex++;
+
+        // Change the npc direction when talking
+        switch (gp.player.direction){
+            case "up":
+                this.direction="down";
+                break;
+            case "down":
+                this.direction="up";
+                break;
+            case "left":
+                this.direction="right";
+                break;
+            case "right":
+                this.direction="left";
+                break;
         }
     }
 

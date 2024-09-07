@@ -160,4 +160,37 @@ public class TileManager {
             }
         }
     }
+
+    public void drawTitleScreenTiles(Graphics2D g){
+        int worldRow=0,worldCol=0;
+
+        while(worldCol<gp.maxWorldCol && worldRow<gp.maxWorldRow){
+
+            // Place of tile in the world
+            int worldX = worldCol*gp.tileSize;
+            int worldY = worldRow*gp.tileSize;
+
+            // Place of tile in the screen
+            // Think it as camera/view of the player
+            // Basically tells us how far each tile is from screen
+            // Think it in terms of 1D instead of 2D
+            // (gp.player.worldX+gp.player.screenX) gives us location of the player
+            // forget gp.player.screenX & only look after gp.player.worldX
+            int screenX = (worldX+gp.player.screenX)-gp.player.worldX;
+            int screenY = (worldY+gp.player.screenY)-gp.player.worldY;
+
+
+            if(screenX>-gp.tileSize&& screenY>-gp.tileSize && screenX<gp.screenWidth && screenY<gp.screenHeight){
+//                g.drawImage(tile[mapTileNum[worldRow][worldCol]].image,screenX,screenY,gp.tileSize,gp.tileSize,null);
+                // Optimized it by removing the scaling
+                g.drawImage(tile[39].image,screenX,screenY,null);
+            }
+
+            worldCol++;
+            if(worldCol==gp.maxWorldCol){
+                worldCol=0;
+                worldRow++;
+            }
+        }
+    }
 }
