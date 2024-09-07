@@ -76,9 +76,6 @@ public class UI {
         if(gp.gameState==gp.playState || gp.gameState==gp.pauseState){
             g.setFont(purisa_b);
             drawTime();
-        }
-
-        if(gp.gameState==gp.playState){
             drawPlayerLife();
         }
     }

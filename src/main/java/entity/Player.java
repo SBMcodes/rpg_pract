@@ -99,17 +99,28 @@ public class Player extends Entity{
 
             // Check if collision exists
             collisionOn=false;
+
+            // Tile interaction
             gp.cChecker.checkTile(this);
+
+            // Object interaction
             int idx = gp.cChecker.checkObject(this,true);
 
             if(idx!=-1){
                 interactObj(idx);
             }
 
+            // NPC interaction
             idx = gp.cChecker.checkEntity(this,gp.npc);
             if(idx!=-1){
                 interactNpc(idx);
             }
+
+            // Event interaction
+            gp.eventHandler.checkEvent();
+
+            // May not be necessary
+//            gp.keyH.pressed.replace("enter",false);
 
             // If there is no collision player can move
             if(!this.collisionOn){
@@ -153,7 +164,6 @@ public class Player extends Entity{
                 gp.gameState=gp.dialogueState;
             }
         }
-        gp.keyH.pressed.replace("enter",false);
     }
 
     @Override

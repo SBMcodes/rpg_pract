@@ -61,6 +61,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public UI ui = new UI(this);
 
+    public EventHandler eventHandler = new EventHandler(this);
+
     Sound sound = new Sound();
     Sound music = new Sound();
 
@@ -215,6 +217,8 @@ public class GamePanel extends JPanel implements Runnable{
 
             // Player
             player.draw(g2);
+
+            eventHandler.drawAllEvents(g2);
 
             // UI
             ui.draw(g2);
