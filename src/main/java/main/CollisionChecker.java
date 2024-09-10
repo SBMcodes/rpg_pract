@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import monster.Monster_GreenSlime;
 import object.SuperObject;
 
 import java.util.Arrays;
@@ -90,50 +91,25 @@ public class CollisionChecker {
                 switch (entity.direction){
                     case "up":
                         entity.solidArea.y-=entity.speed;
-                        if(entity.solidArea.intersects(o.solidArea)){
-                            if(o.collision==true){
-                                entity.collisionOn=true;
-                            }
-                            if(isPlayer){
-                                idx=count;
-                            }
-                        }
                         break;
                     case "down":
                         entity.solidArea.y+=entity.speed;
-                        if(entity.solidArea.intersects(o.solidArea)){
-                            if(o.collision==true){
-                                entity.collisionOn=true;
-                            }
-                            if(isPlayer){
-                                idx=count;
-                            }
-
-                        }
                         break;
                     case "left":
                         entity.solidArea.x-=entity.speed;
-                        if(entity.solidArea.intersects(o.solidArea)){
-                            if(o.collision==true){
-                                entity.collisionOn=true;
-                            }
-                            if(isPlayer){
-                                idx=count;
-                            }
-
-                        }
                         break;
                     case "right":
                         entity.solidArea.x+=entity.speed;
-                        if(entity.solidArea.intersects(o.solidArea)){
-                            if(o.collision==true){
-                                entity.collisionOn=true;
-                            }
-                            if(isPlayer){
-                                idx=count;
-                            }
-                        }
                         break;
+                }
+
+                if(entity.solidArea.intersects(o.solidArea)){
+                    if(o.collision==true){
+                        entity.collisionOn=true;
+                    }
+                    if(isPlayer){
+                        idx=count;
+                    }
                 }
 
                 o.solidArea.x = o.solidAreaDefaultX;
@@ -158,7 +134,7 @@ public class CollisionChecker {
 
         int count =0;
         for(Entity o: target){
-            if(o!=null){
+            if(o!=null && o!=entity){
 
                 // A different way to do the same stuff At the end we are going to change it to default
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
@@ -171,39 +147,26 @@ public class CollisionChecker {
                     case "up":
 
                         entity.solidArea.y-=entity.speed;
-                        if(entity.solidArea.intersects(o.solidArea)){
-                            idx=count;
-                            entity.collisionOn=true;
-                        }
                         break;
                     case "down":
 
                         entity.solidArea.y+=entity.speed;
-                        if(entity.solidArea.intersects(o.solidArea)){
-                            idx=count;
-                            entity.collisionOn=true;
-
-                        }
                         break;
                     case "left":
 
                         entity.solidArea.x-=entity.speed;
-                        if(entity.solidArea.intersects(o.solidArea)){
-                            idx=count;
-                            entity.collisionOn=true;
-
-                        }
                         break;
                     case "right":
 
                         entity.solidArea.x+=entity.speed;
-                        if(entity.solidArea.intersects(o.solidArea)){
-                            idx=count;
-                            entity.collisionOn=true;
-                            }
                         break;
                         }
 
+
+                if(entity.solidArea.intersects(o.solidArea)){
+                    idx=count;
+                    entity.collisionOn=true;
+                }
                 o.solidArea.x = o.solidAreaDefaultX;
                 o.solidArea.y = o.solidAreaDefaultY;
 
@@ -232,30 +195,24 @@ public class CollisionChecker {
             switch (entity.direction){
                 case "up":
                     entity.solidArea.y-=entity.speed;
-                    if(entity.solidArea.intersects(o.solidArea)){
-                        entity.collisionOn=true;
-                    }
                     break;
                 case "down":
                     entity.solidArea.y+=entity.speed;
-                    if(entity.solidArea.intersects(o.solidArea)){
-                        entity.collisionOn=true;
-
-                    }
                     break;
                 case "left":
                     entity.solidArea.x-=entity.speed;
-                    if(entity.solidArea.intersects(o.solidArea)){
-                        entity.collisionOn=true;
-
-                    }
                     break;
                 case "right":
                     entity.solidArea.x+=entity.speed;
-                    if(entity.solidArea.intersects(o.solidArea)){
-                        entity.collisionOn=true;
-                    }
                     break;
+            }
+
+            if(entity.solidArea.intersects(o.solidArea)){
+                entity.collisionOn=true;
+                // monster interacting with player
+                if(entity.entityType==2){
+                    gp.player.interactMonster();
+                }
             }
 
             o.solidArea.x = o.solidAreaDefaultX;

@@ -14,6 +14,8 @@ public class Player extends Entity{
     KeyHandler keyH;
     BufferedImage image=null;
 
+    boolean invincible = false;
+    int invincibleCount = 0;
 
     public final int screenX,screenY;
 
@@ -116,6 +118,12 @@ public class Player extends Entity{
                 interactNpc(idx);
             }
 
+            // Monster interaction
+            idx = gp.cChecker.checkEntity(this,gp.monster);
+            if(idx!=-1 && !this.invincible){
+                interactMonster();
+            }
+
             // Event interaction
 //            gp.eventHandler.checkEvent();
 
@@ -151,7 +159,24 @@ public class Player extends Entity{
         else{
             spriteCounter=6;
         }
+
         gp.eventHandler.checkEvent();
+
+        if(this.invincible){
+            invincibleCount++;
+            if(invincibleCount>120){
+                invincibleCount=0;
+                this.invincible=false;
+            }
+        }
+    }
+
+    public void interactMonster(){
+        if(!this.invincible){
+            this.life-=1;
+            this.invincible=true;
+        }
+
     }
 
     public void interactObj(int idx){
@@ -187,7 +212,15 @@ public class Player extends Entity{
                 break;
         }
         // ImageObserver: null
-        g.drawImage(image,screenX,screenY,null);
+
+        if(this.invincible && (this.invincibleCount%2==0)){
+//            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.3f));
+            g.drawImage(image,screenX,screenY,null);
+//            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
+        }
+        else if(!this.invincible){
+            g.drawImage(image,screenX,screenY,null);
+        }
         if(gp.testing.get("isTesting") && gp.testing.get("window")){
             g.setColor(Color.RED);
             g.fillRect(screenX+solidArea.x,screenY+solidArea.x,solidArea.width,solidArea.height);

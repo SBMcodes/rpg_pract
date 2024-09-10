@@ -89,37 +89,37 @@ public class NPC_OldMan extends Entity{
 
     @Override
     public void update(){
-
-        actionCounter++;
-        if(this.collisionOn || actionCounter>180){
-            actionCounter=0;
-            setAction();
-        }
-
-        collisionOn=false;
-
-        gp.cChecker.checkTile(this);
-        gp.cChecker.checkObject(this,false);
-        gp.cChecker.checkPlayer(this);
-
-        if(!this.collisionOn){
-            switch (direction){
-                case "up":
-                    worldY-=speed;
-                    break;
-                case "down":
-                    worldY+=speed;
-                    break;
-                case "left":
-                    worldX-=speed;
-                    break;
-                case "right":
-                    worldX+=speed;
-                    break;
-            }
-            // animation
-            increaseSpriteCounter();
-        }
+        super.update();
+//        actionCounter++;
+//        if(this.collisionOn || actionCounter>180){
+//            actionCounter=0;
+//            setAction();
+//        }
+//
+//        collisionOn=false;
+//
+//        gp.cChecker.checkTile(this);
+//        gp.cChecker.checkObject(this,false);
+//        gp.cChecker.checkPlayer(this);
+//
+//        if(!this.collisionOn){
+//            switch (direction){
+//                case "up":
+//                    worldY-=speed;
+//                    break;
+//                case "down":
+//                    worldY+=speed;
+//                    break;
+//                case "left":
+//                    worldX-=speed;
+//                    break;
+//                case "right":
+//                    worldX+=speed;
+//                    break;
+//            }
+//            // animation
+//            increaseSpriteCounter();
+//        }
 
 
     }

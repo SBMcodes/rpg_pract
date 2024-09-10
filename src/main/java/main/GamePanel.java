@@ -57,9 +57,11 @@ public class GamePanel extends JPanel implements Runnable{
     public Map<String,Boolean> testing = new HashMap<>();
 
     public Entity[] obj = new Entity[10];
+    public Entity[] monster = new Entity[20];
     public AssetManager assetManager = new AssetManager(this);
 
     public ArrayList<Entity> entityList = new ArrayList<Entity>();
+
 
     public UI ui = new UI(this);
 
@@ -98,6 +100,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         assetManager.setObject();
         assetManager.setNPC();
+        assetManager.setMonster();
         gameState = titleState;
     }
 
@@ -170,6 +173,13 @@ public class GamePanel extends JPanel implements Runnable{
                 o.update();
             }
         }
+
+            for(Entity o: monster){
+                if(o!=null){
+                    o.update();
+                }
+            }
+
         }
         else if(this.gameState==this.pauseState){
         }
@@ -215,6 +225,12 @@ public class GamePanel extends JPanel implements Runnable{
             for (int i = 0; i <obj.length ; i++) {
                 if(obj[i]!=null){
                     entityList.add(obj[i]);
+                }
+            }
+
+            for (int i = 0; i <monster.length ; i++) {
+                if(monster[i]!=null){
+                    entityList.add(monster[i]);
                 }
             }
 
