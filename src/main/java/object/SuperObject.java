@@ -5,10 +5,14 @@ import main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+// Legacy Code
+// Not in used replace with Entity class
+
 public abstract class SuperObject {
     public String id;
-    public BufferedImage image,image2,image3;
     public boolean collision = false;
+    public BufferedImage image,image2,image3;
+
     public int worldX,worldY;
 
     public Rectangle solidArea = new Rectangle(0,0,48,48);

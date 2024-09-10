@@ -7,8 +7,8 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 // Acts as a game screen
 public class GamePanel extends JPanel implements Runnable{
@@ -56,8 +56,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     public Map<String,Boolean> testing = new HashMap<>();
 
-    public SuperObject obj[] = new SuperObject[10];
+    public Entity[] obj = new Entity[10];
     public AssetManager assetManager = new AssetManager(this);
+
+    public ArrayList<Entity> entityList = new ArrayList<Entity>();
 
     public UI ui = new UI(this);
 
@@ -201,27 +203,42 @@ public class GamePanel extends JPanel implements Runnable{
             // Tiles
             tileManager.draw(g2);
 
-            // Objects
-            for (SuperObject o : obj){
-                if(o!=null){
-                    o.draw(g2);
+            //  Add Entities to the list
+            entityList.add(player);
+
+            for (int i = 0; i <npc.length ; i++) {
+                if(npc[i]!=null){
+                    entityList.add(npc[i]);
                 }
             }
 
-            // NPC
-            for (Entity o : npc){
-                if(o!=null){
-                    o.draw(g2);
+            for (int i = 0; i <obj.length ; i++) {
+                if(obj[i]!=null){
+                    entityList.add(obj[i]);
                 }
             }
 
-            // Player
-            player.draw(g2);
+            // Sort according to worldY
+            Collections.sort(entityList, new Comparator<Entity>() {
+                @Override
+                public int compare(Entity o1, Entity o2) {
+                    return Integer.compare(o1.worldY,o2.worldY);
+                }
+            });
+
+//            // Draw Entity List
+            for (Entity entity : entityList) {
+                entity.draw(g2);
+            }
+
+            // Clear entityList
+            entityList.clear();
 
             eventHandler.drawAllEvents(g2);
 
             // UI
             ui.draw(g2);
+
         }
 
         // Releases system resources its holding after every frame

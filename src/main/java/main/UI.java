@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import object.Obj_Heart;
 import object.SuperObject;
 
@@ -47,7 +48,7 @@ public class UI {
             System.out.println("Loading Font Error!");
         }
 
-        SuperObject heart = new Obj_Heart(gp);
+        Entity heart = new Obj_Heart(gp);
         heartFull = heart.image;
         heartHalf = heart.image2;
         heartBlank = heart.image3;

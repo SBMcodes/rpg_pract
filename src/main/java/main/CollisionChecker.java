@@ -77,7 +77,7 @@ public class CollisionChecker {
         int idx=-1;
 
         int count =0;
-        for(SuperObject o: gp.obj){
+        for(Entity o: gp.obj){
             if(o!=null){
 
                 // A different way to do the same stuff At the we are going to change it to default

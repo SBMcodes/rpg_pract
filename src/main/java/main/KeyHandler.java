@@ -96,8 +96,8 @@ public class KeyHandler implements KeyListener {
             pressed.replace("left",false);
         }
         else if(code==KeyEvent.VK_D){
-            pressed.replace("right",false);
-        } else if (code==KeyEvent.VK_ENTER) {
+            pressed.replace("right",false);}
+         else if (code==KeyEvent.VK_ENTER) {
             pressed.replace("enter",false);
         }
 

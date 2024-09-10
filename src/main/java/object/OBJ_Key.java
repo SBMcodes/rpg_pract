@@ -1,19 +1,23 @@
 package object;
 
+import entity.Entity;
 import main.GamePanel;
-import main.UtilityTool;
 
-import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
-public class OBJ_Key extends SuperObject {
+public class OBJ_Key extends Entity {
     public OBJ_Key(GamePanel gp){
         super(gp,"key");
-        try {
-        image = ImageIO.read(getClass().getResourceAsStream("/images/objects/key.png"));
-        image = UtilityTool.scaleImage(image,gp.tileSize,gp.tileSize);
-        } catch (Exception e){
-            System.out.println("Could not read key object image!");
-        }
+        image = setImage("/images/objects/key.png");
+        down1 = image;
+        imageMap.put("down", new BufferedImage[]{down1});
+
+//        try {
+//        image = ImageIO.read(getClass().getResourceAsStream(""));
+//        image = UtilityTool.scaleImage(image,gp.tileSize,gp.tileSize);
+//        } catch (Exception e){
+//            System.out.println("Could not read key object image!");
+//        }
 
     }
 }

@@ -17,7 +17,7 @@ public abstract class Entity {
     // Position of entity on screen
     public int screenX,screenY;
     public int speed;
-    public String direction;
+    public String direction="down";
 
     // stores x,y,width,height
     public Rectangle solidArea;
@@ -36,6 +36,10 @@ public abstract class Entity {
     public int life;
 
     public GamePanel gp;
+
+    // Imported from SuperObject
+    public boolean collision = false;
+    public BufferedImage image,image2,image3;
 
     public Entity(GamePanel gp,String id){
         this.id=id;
@@ -120,6 +124,15 @@ public abstract class Entity {
                     image=imageMap.get("right")[spriteNum];
                     break;
             }
+            g.drawImage(image,screenX,screenY,null);
+        }
+    }
+
+    public void drawObj(Graphics2D g){
+        int screenX = (worldX+gp.player.screenX)-gp.player.worldX;
+        int screenY = (worldY+gp.player.screenY)-gp.player.worldY;
+
+        if(screenX>-gp.tileSize&& screenY>-gp.tileSize && screenX<gp.screenWidth && screenY<gp.screenHeight){
             g.drawImage(image,screenX,screenY,null);
         }
     }

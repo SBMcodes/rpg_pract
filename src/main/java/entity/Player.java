@@ -117,7 +117,7 @@ public class Player extends Entity{
             }
 
             // Event interaction
-            gp.eventHandler.checkEvent();
+//            gp.eventHandler.checkEvent();
 
             // May not be necessary
 //            gp.keyH.pressed.replace("enter",false);
@@ -151,6 +151,7 @@ public class Player extends Entity{
         else{
             spriteCounter=6;
         }
+        gp.eventHandler.checkEvent();
     }
 
     public void interactObj(int idx){
