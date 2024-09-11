@@ -161,10 +161,14 @@ public class UI {
         } else if (titleScreenState==1) {
             g.setColor(new Color(220,220,220));
             g.setFont(g.getFont().deriveFont(Font.BOLD,48f));
-            String text = "Here is the story...";
+            String text = "Here is the story...\n There is no story";
             int x = getXforCenteredText(text);
             int y=120;
-            g.drawString(text,x,y);
+            for(String line:text.split("\n")){
+                x = getXforCenteredText(line);
+                g.drawString(line,x,y);
+                y+=120;
+            }
         }
 
 

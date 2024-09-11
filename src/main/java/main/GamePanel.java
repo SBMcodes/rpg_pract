@@ -174,9 +174,12 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
 
-            for(Entity o: monster){
-                if(o!=null){
-                    o.update();
+            for(int i=0;i<monster.length;i++){
+                if(monster[i]!=null){
+                    monster[i].update();
+                    if(monster[i].life<=0 && !monster[i].invincible){
+                        monster[i]=null;
+                    }
                 }
             }
 
@@ -262,9 +265,12 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void playMusic(int idx){
-        music.setFile(idx);
-        music.play();
-        music.loop();
+        if(Settings.music){
+            music.setFile(idx);
+            music.play();
+            music.loop();
+        }
+
     }
 
     public void stopMusic(){

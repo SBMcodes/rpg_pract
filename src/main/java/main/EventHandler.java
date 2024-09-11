@@ -50,6 +50,7 @@ public class EventHandler {
 
 //
         if(gp.keyH.pressed.get("enter") && hit(12,23,"any",false)){
+            gp.player.attacking=false;
             healingPoolEvent(gp.dialogueState);
 
         }

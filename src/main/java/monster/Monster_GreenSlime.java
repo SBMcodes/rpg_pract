@@ -12,7 +12,7 @@ public class Monster_GreenSlime extends Entity {
     public Monster_GreenSlime(GamePanel gp) {
         super(gp, "greenSlime");
         speed=2;
-        maxLife=4;
+        maxLife=3;
         life=maxLife;
         collision=true;
 

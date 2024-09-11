@@ -12,34 +12,45 @@ import java.util.Map;
 
 public abstract class Entity {
     String id;
+    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    public BufferedImage attackUp1,attackUp2,attackDown1,attackDown2,attackLeft1,attackLeft2
+            , attackRight1, attackRight2;
+    public Map<String, BufferedImage[]> imageMap = new HashMap<>();
+
+    // stores x,y,width,height
+    public Rectangle solidArea;
+    public int solidAreaDefaultX, solidAreaDefaultY;
+    public Rectangle attackArea;
+
+
+
+    public boolean collisionOn = false;
+    public int maxLife=0;
+    public int life=0;
+
+    public boolean invincible = false;
+    int invincibleCount = 0;;
+
+
     // Entity position on world map
     public int worldX, worldY;
     // Position of entity on screen
     public int screenX, screenY;
     public int speed;
     public String direction = "down";
+    // Imported from SuperObject
+    public boolean collision = false;
+    public BufferedImage image, image2, image3;
 
-    // stores x,y,width,height
-    public Rectangle solidArea;
-    public int solidAreaDefaultX, solidAreaDefaultY;
-    public boolean collisionOn = false;
-
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    public Map<String, BufferedImage[]> imageMap = new HashMap<>();
 
     public int spriteNum = 0, spriteCounter = 0, actionCounter = 0;
 
     public String[] dialogues = new String[20];
     int dialogueIndex = 0;
 
-    public int maxLife;
-    public int life;
 
     public GamePanel gp;
 
-    // Imported from SuperObject
-    public boolean collision = false;
-    public BufferedImage image, image2, image3;
 
     // useful when an entity hits another entity
     // 0 - player   1 - npc   2 - monster
@@ -62,7 +73,40 @@ public abstract class Entity {
         return img;
     }
 
+    public BufferedImage setImage(String imagePath,int width,int height) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            img = UtilityTool.scaleImage(img, width, height);
+        } catch (IOException e) {
+            System.out.println("Error loading entity image!");
+        }
+        return img;
+    }
+
     public void setAction() {
+    }
+
+    public void gotHit(String dir){
+        if(!this.invincible && this.life>=0){
+            this.invincible=true;
+            this.life-=1;
+            gp.playSoundEffect(5);
+        }
+        switch (dir){
+            case "up":
+                this.worldY-=5;
+                break;
+            case "down":
+                this.worldY+=5;
+                break;
+            case "left":
+                this.worldX-=5;
+                break;
+            case "right":
+                this.worldX+=5;
+                break;
+        }
     }
 
     public void increaseSpriteCounter() {
@@ -76,6 +120,8 @@ public abstract class Entity {
             }
         }
     }
+
+
 
     public void speak() {
         if (dialogues[dialogueIndex] == null) {
@@ -126,7 +172,19 @@ public abstract class Entity {
                     image = imageMap.get("right")[spriteNum];
                     break;
             }
+            if(this.invincible && this.invincibleCount%3==0){
+                g.drawImage(image, screenX, screenY, null);
+            }
+            else if(!this.invincible){
             g.drawImage(image, screenX, screenY, null);
+            }
+        }
+
+        if(this.entityType==2){
+            g.setColor(new Color(200,200,200));
+            g.fillRect(screenX-2,screenY-17,gp.tileSize+4,14);
+            g.setColor(new Color(255,0,30));
+            g.fillRect(screenX,screenY-15,(int)(gp.tileSize*((double)this.life/this.maxLife)),10);
         }
     }
 
@@ -136,6 +194,16 @@ public abstract class Entity {
 
         if (screenX > -gp.tileSize && screenY > -gp.tileSize && screenX < gp.screenWidth && screenY < gp.screenHeight) {
             g.drawImage(image, screenX, screenY, null);
+        }
+    }
+
+    public void increaseInvincibleCount(){
+        if(this.invincible){
+            invincibleCount++;
+            if(invincibleCount>60){
+                invincibleCount=0;
+                this.invincible=false;
+            }
         }
     }
 
@@ -171,6 +239,8 @@ public abstract class Entity {
             }
             // animation
             increaseSpriteCounter();
+
+            increaseInvincibleCount();
         }
     }
 }

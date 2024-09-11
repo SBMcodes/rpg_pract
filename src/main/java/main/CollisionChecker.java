@@ -211,7 +211,9 @@ public class CollisionChecker {
                 entity.collisionOn=true;
                 // monster interacting with player
                 if(entity.entityType==2){
-                    gp.player.interactMonster();
+                    if(!entity.invincible){
+                        gp.player.interactMonster();
+                    }
                 }
             }
 
