@@ -38,6 +38,11 @@ public class UI {
     ArrayList<String> messages = new ArrayList<>();
     ArrayList<Integer> messagesCounter = new ArrayList<>();
 
+    // Inventory Cursor
+    public int maxSlotRow=4,maxSlotCol=5;
+    public int slotRow=0,slotCol = 0;
+
+
     public UI(GamePanel gp){
         this.gp=gp;
         commandNum=0;
@@ -86,6 +91,7 @@ public class UI {
         }
         if(gp.gameState==gp.characterState){
             drawCharacterScreen();
+            drawInventory();
         }
     }
 
@@ -141,6 +147,65 @@ public class UI {
 
         
 
+    }
+
+    private void drawInventory(){
+        // FRAME
+        int frameX = 9*gp.tileSize,frameY=gp.tileSize;
+        int frameWidth=6*gp.tileSize,frameHeight=5*gp.tileSize;
+        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+
+        // SLOT
+        final int slotXstart = frameX+20;
+        final int slotYstart = frameY+20;
+
+        int slotX = slotXstart,slotY=slotYstart;
+        int slotSize = gp.tileSize+3;
+
+        // PLAYER ITEMS
+        for (int i = 0; i < gp.player.inventory.size(); i++) {
+            g.drawImage(gp.player.inventory.get(i).down1,slotX,slotY,null);
+            slotX+=slotSize;
+
+            if((i+1)%maxSlotCol==0){
+                slotX=slotXstart;
+                slotY+=slotSize;
+            }
+        }
+
+
+        // CURSOR
+        int cursorX=slotXstart+(slotCol*slotSize),cursorY=slotYstart+(slotRow*slotSize);
+        int cursorWidth=gp.tileSize+2,cursorHeight=gp.tileSize+2;
+
+        // Draw Cursor
+        g.setColor(new Color(220,220,220));
+        g.setStroke(new BasicStroke(3));
+        g.drawRoundRect(cursorX,cursorY,cursorWidth,cursorHeight,10,10);
+
+
+
+        int curItemIdx = getCurItemIndex();
+        if(curItemIdx<gp.player.inventory.size()){
+            // DESCRIPTION Window
+            int dFrameX=frameX,dFrameY=frameY+frameHeight+20,dFrameWidth=frameWidth,dFrameHeight=5*gp.tileSize;
+            drawSubWindow(dFrameX,dFrameY,dFrameWidth,dFrameHeight);
+
+            int dTextX = dFrameX+20,dTextY=dFrameY+gp.tileSize;
+            g.setFont(g.getFont().deriveFont(18f));
+
+
+            String dText = gp.player.inventory.get(curItemIdx).description;
+            for (String line: dText.split("\n")){
+                g.drawString(line,dTextX,dTextY);
+                dTextY+=34;
+            }
+        }
+    }
+
+    public int getCurItemIndex(){
+        int total = (slotRow*maxSlotCol)+slotCol;
+        return total;
     }
 
     public int drawCharacterStatTitle(String text,int textX,int textY,int lineHeight){

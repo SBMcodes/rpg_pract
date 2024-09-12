@@ -105,6 +105,8 @@ public class GamePanel extends JPanel implements Runnable{
         gameState = titleState;
     }
 
+
+
     public void init(){
         testing.put("isTesting",false);
         testing.put("console",true);

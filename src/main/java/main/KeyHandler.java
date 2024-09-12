@@ -103,8 +103,44 @@ public class KeyHandler implements KeyListener {
     }
 
     public void characterStateEvent(int code){
-        if(code==KeyEvent.VK_T){
+        if(code==KeyEvent.VK_T || code==KeyEvent.VK_ESCAPE){
             gp.gameState=gp.playState;
+        }
+        else if(code==KeyEvent.VK_W){
+            if(gp.ui.slotRow-1>=0){
+                gp.ui.slotRow--;
+            }
+            else{
+                gp.ui.slotRow=gp.ui.maxSlotRow-1;
+            }
+            gp.playSoundEffect(8);
+        }
+        else if(code==KeyEvent.VK_S){
+            if(gp.ui.slotRow+1<gp.ui.maxSlotRow){
+                gp.ui.slotRow++;
+            }
+            else{
+                gp.ui.slotRow=0;
+            }
+            gp.playSoundEffect(8);
+        }
+        else if(code==KeyEvent.VK_A){
+            if(gp.ui.slotCol-1>=0){
+                gp.ui.slotCol--;
+            }
+            else{
+                gp.ui.slotCol=gp.ui.maxSlotCol-1;
+            }
+            gp.playSoundEffect(8);
+        }
+        else if(code==KeyEvent.VK_D){
+            if(gp.ui.slotCol+1<gp.ui.maxSlotCol){
+                gp.ui.slotCol++;
+            }
+            else{
+                gp.ui.slotCol=0;
+            }
+            gp.playSoundEffect(8);
         }
     }
 

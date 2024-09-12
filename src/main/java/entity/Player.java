@@ -2,11 +2,13 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Player extends Entity{
 
@@ -16,6 +18,9 @@ public class Player extends Entity{
     public boolean attacking = false;
 
     public final int screenX,screenY;
+
+    public ArrayList<Entity> inventory = new ArrayList<>();
+//    public final int maxInventorySize = 20;
 
     // Getting KeyHandler & GamePanel to update & draw entity
     public Player(GamePanel gp,KeyHandler keyH){
@@ -60,6 +65,14 @@ public class Player extends Entity{
 
        getAttack();
        getDefense();
+
+       setInventoryItems();
+    }
+
+    public void setInventoryItems(){
+        inventory.add(currentWeapon);
+        inventory.add(curerntShield);
+        inventory.add(new OBJ_Key(gp));
     }
 
     public void getAttack(){

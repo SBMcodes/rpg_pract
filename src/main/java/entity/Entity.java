@@ -72,6 +72,8 @@ public abstract class Entity {
     public int attackValue=0;
     public int defenseValue=0;
 
+    public String description="";
+
 
     public Entity(GamePanel gp, String id) {
         this.id = id;
