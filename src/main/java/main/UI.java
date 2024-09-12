@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class UI {
     GamePanel gp;
@@ -33,6 +34,9 @@ public class UI {
     public int titleScreenState = 0; // Title Screen Sub State
 
     BufferedImage heartFull,heartHalf,heartBlank;
+
+    ArrayList<String> messages = new ArrayList<>();
+    ArrayList<Integer> messagesCounter = new ArrayList<>();
 
     public UI(GamePanel gp){
         this.gp=gp;
@@ -67,6 +71,7 @@ public class UI {
 
         if(gp.gameState==gp.playState){
             curTime+=(double)1/60;
+            drawMessage();
         } else if (gp.gameState==gp.pauseState) {
             drawPauseScreen();
         } else if (gp.gameState==gp.dialogueState) {
@@ -252,20 +257,45 @@ public class UI {
 
 
 
-    public void showMessage(String message){
-        this.message=message;
-        messageOn=true;
-        frameCounter=0;
+    public void addMessage(String message){
+
+        messages.add(message);
+        messagesCounter.add(0);
+
+//        this.message=message;
+//        messageOn=true;
+//        frameCounter=0;
     }
 
     public void drawMessage(){
-        g.setFont(g.getFont().deriveFont(30f));
-        g.drawString(this.message,(gp.screenWidth/2)-72,65);
-        frameCounter++;
-        if(frameCounter>90){
-            frameCounter=0;
-            this.messageOn=false;
+        int messageX = gp.tileSize;
+        int messageY = gp.tileSize*4;
+
+        g.setFont(g.getFont().deriveFont(Font.BOLD,22f));
+
+        for (int i = 0; i < this.messages.size() ; i++) {
+            if(messages.get(i)!=null){
+
+                g.setColor(new Color(30,30,30));
+                g.drawString(messages.get(i),messageX+2,messageY+2);
+                g.setColor(Color.white);
+                g.drawString(messages.get(i),messageX,messageY);
+                messageY+=32;
+
+                messagesCounter.set(i,messagesCounter.get(i)+1);
+                if(messagesCounter.get(i)>180){
+                    messages.set(i,null);
+                }
+            }
         }
+
+//        g.setFont(g.getFont().deriveFont(30f));
+//        g.drawString(this.message,(gp.screenWidth/2)-72,65);
+//        frameCounter++;
+//        if(frameCounter>90){
+//            frameCounter=0;
+//            this.messageOn=false;
+//        }
     }
 
     public void drawPauseScreen(){

@@ -175,7 +175,7 @@ public class Player extends Entity{
             // Monster interaction
             idx = gp.cChecker.checkEntity(this,gp.monster);
             if(idx!=-1 && !this.invincible){
-                interactMonster(idx);
+                interactMonster(gp.monster[idx].invincible,gp.monster[idx].attack);
             }
 
             // Event interaction
@@ -270,23 +270,26 @@ public class Player extends Entity{
     }
 
 
-    public void reducePlayerLife(){
-        this.life-=1;
+    public void reducePlayerLife(int attack){
+        int damage = attack-this.defense;
+        if(damage<0){
+            damage=0;
+        }
+        this.life-=damage;
         this.invincible=true;
         gp.playSoundEffect(6);
     }
-    public void interactMonster(int idx){
-        if(!this.invincible && !gp.monster[idx].invincible){
-            reducePlayerLife();
+    public void interactMonster(boolean isInvincible,int attack){
+        if(!this.invincible && !isInvincible){
+            reducePlayerLife(attack);
         }
     }
 
-    public void interactMonster(){
-        if(!this.invincible){
-            reducePlayerLife();
-        }
-
-    }
+//    public void interactMonster(){
+//        if(!this.invincible){
+//            reducePlayerLife();
+//        }
+//    }
 
     public void interactObj(int idx){
 
@@ -298,6 +301,20 @@ public class Player extends Entity{
                 gp.npc[idx].speak();
                 gp.gameState=gp.dialogueState;
             }
+        }
+    }
+
+    public void addExp(int xp){
+        this.exp+=xp;
+        gp.ui.addMessage("+"+xp+" XP");
+        if(this.exp>=this.nextLevelExp){
+            nextLevelExp=nextLevelExp*2;
+            level++;
+            maxLife+=2;
+            strength++;
+            getAttack();
+            gp.ui.addMessage("Level: "+this.level);
+            gp.playSoundEffect(7);
         }
     }
 

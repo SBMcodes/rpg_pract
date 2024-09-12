@@ -35,5 +35,13 @@ public class AssetManager {
         gp.monster[1].worldX = 23*gp.tileSize;
         gp.monster[1].worldY = 37*gp.tileSize;
 
+        gp.monster[2] = new Monster_GreenSlime(gp);
+        gp.monster[2].worldX = 34*gp.tileSize;
+        gp.monster[2].worldY = 42*gp.tileSize;
+
+        gp.monster[3] = new Monster_GreenSlime(gp);
+        gp.monster[3].worldX = 38*gp.tileSize;
+        gp.monster[3].worldY = 42*gp.tileSize;
+
     }
 }

@@ -60,8 +60,8 @@ public abstract class Entity {
     public int level=1;
     public int strength=1;
     public int dexterity=1;
-    public int attack;
-    public int defense;
+    public int attack=0;
+    public int defense=0;
     public int exp=0;
     public int nextLevelExp=5;
     public int coin=0;
@@ -106,14 +106,20 @@ public abstract class Entity {
 
     public void gotHit(String dir){
         if(!this.invincible && this.life>=0){
+            int damage = gp.player.attack-this.defense;
+            if(damage<0){
+                damage=0;
+                return;
+            }
             this.invincible=true;
-            this.life-=1;
+            this.life-=damage;
             gp.playSoundEffect(5);
         }
         switch (dir){
             case "up":
                 this.worldY-=5;
                 gp.cChecker.checkTile(this);
+                gp.cChecker.checkEntity(this,gp.monster);
                 if(this.collisionOn){
                     this.worldY+=5;
                     this.collisionOn=false;
@@ -122,6 +128,7 @@ public abstract class Entity {
             case "down":
                 this.worldY+=5;
                 gp.cChecker.checkTile(this);
+                gp.cChecker.checkEntity(this,gp.monster);
                 if(this.collisionOn){
                     this.worldY-=5;
                     this.collisionOn=false;
@@ -130,6 +137,7 @@ public abstract class Entity {
             case "left":
                 this.worldX-=5;
                 gp.cChecker.checkTile(this);
+                gp.cChecker.checkEntity(this,gp.monster);
                 if(this.collisionOn){
                     this.worldX+=5;
                     this.collisionOn=false;
@@ -138,6 +146,7 @@ public abstract class Entity {
             case "right":
                 this.worldX+=5;
                 gp.cChecker.checkTile(this);
+                gp.cChecker.checkEntity(this,gp.monster);
                 if(this.collisionOn){
                     this.worldX-=5;
                     this.collisionOn=false;

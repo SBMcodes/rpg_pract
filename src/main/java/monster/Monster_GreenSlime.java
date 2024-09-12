@@ -10,10 +10,12 @@ import java.util.Random;
 public class Monster_GreenSlime extends Entity {
 
     public Monster_GreenSlime(GamePanel gp) {
-        super(gp, "greenSlime");
+        super(gp, "Green Slime");
         speed=2;
         maxLife=3;
         life=maxLife;
+        attack=2;
+        exp=2;
         collision=true;
 
         entityType=2;

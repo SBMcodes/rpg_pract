@@ -212,7 +212,7 @@ public class CollisionChecker {
                 // monster interacting with player
                 if(entity.entityType==2){
                     if(!entity.invincible){
-                        gp.player.interactMonster();
+                        gp.player.interactMonster(entity.invincible,entity.attack);
                     }
                 }
             }
