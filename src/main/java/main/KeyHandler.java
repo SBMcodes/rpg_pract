@@ -32,54 +32,80 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode();
 
         if(gp.gameState==gp.playState){
-            if(code==KeyEvent.VK_W){
-                pressed.replace("up",true);
-            }
-            else if(code==KeyEvent.VK_S){
-                pressed.replace("down",true);
-            }
-            else if(code==KeyEvent.VK_A){
-                pressed.replace("left",true);
-            }
-            else if(code==KeyEvent.VK_D){
-                pressed.replace("right",true);
-            }
-            else if(code==KeyEvent.VK_ENTER){
-                pressed.replace("enter",true);
-            }
-            else if(code==KeyEvent.VK_ESCAPE){
-                gp.gameState=gp.pauseState;
-            }
+            playStateEvent(code);
         } else if (gp.gameState==gp.pauseState) {
-            if(code==KeyEvent.VK_ESCAPE){
-                gp.gameState=gp.playState;
-            }
-
+            pauseStateEvent(code);
         } else if (gp.gameState==gp.dialogueState) {
-            if(code==KeyEvent.VK_ENTER){
-                gp.gameState=gp.playState;
-            }
-        } else if (gp.gameState==gp.titleState) {
-            if(gp.ui.titleScreenState==0){
-                if(code==KeyEvent.VK_W){
-                    gp.ui.commandNum--;
-                    if(gp.ui.commandNum<0){
-                        gp.ui.commandNum=gp.ui.totalCommand-1;
-                    }
-                }
-                else if(code==KeyEvent.VK_S){
-                    gp.ui.commandNum++;
-                    if(gp.ui.commandNum==gp.ui.totalCommand){
-                        gp.ui.commandNum=0;
-                    }
-                }
-            }
-            if(code==KeyEvent.VK_ENTER){
-                gp.ui.executeCommand();
-            }
-
+            dialogueStateEvent(code);
+        }
+        else if (gp.gameState==gp.titleState) {
+            titleStateEvent(code);
+        }
+        else if (gp.gameState==gp.characterState) {
+            characterStateEvent(code);
         }
 
+    }
+
+    public void playStateEvent(int code){
+        if(code==KeyEvent.VK_W){
+            pressed.replace("up",true);
+        }
+        else if(code==KeyEvent.VK_S){
+            pressed.replace("down",true);
+        }
+        else if(code==KeyEvent.VK_A){
+            pressed.replace("left",true);
+        }
+        else if(code==KeyEvent.VK_D){
+            pressed.replace("right",true);
+        }
+        else if(code==KeyEvent.VK_ENTER){
+            pressed.replace("enter",true);
+        }
+        else if(code==KeyEvent.VK_ESCAPE){
+            gp.gameState=gp.pauseState;
+        } else if (code==KeyEvent.VK_T) {
+            gp.gameState=gp.characterState;
+        }
+    }
+
+    public void pauseStateEvent(int code){
+        if(code==KeyEvent.VK_ESCAPE){
+            gp.gameState=gp.playState;
+        }
+    }
+
+    public void titleStateEvent(int code){
+        if(gp.ui.titleScreenState==0){
+            if(code==KeyEvent.VK_W){
+                gp.ui.commandNum--;
+                if(gp.ui.commandNum<0){
+                    gp.ui.commandNum=gp.ui.totalCommand-1;
+                }
+            }
+            else if(code==KeyEvent.VK_S){
+                gp.ui.commandNum++;
+                if(gp.ui.commandNum==gp.ui.totalCommand){
+                    gp.ui.commandNum=0;
+                }
+            }
+        }
+        if(code==KeyEvent.VK_ENTER){
+            gp.ui.executeCommand();
+        }
+    }
+
+    public void dialogueStateEvent(int code){
+        if(code==KeyEvent.VK_ENTER){
+            gp.gameState=gp.playState;
+        }
+    }
+
+    public void characterStateEvent(int code){
+        if(code==KeyEvent.VK_T){
+            gp.gameState=gp.playState;
+        }
     }
 
     @Override

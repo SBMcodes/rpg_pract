@@ -79,6 +79,75 @@ public class UI {
             drawTime();
             drawPlayerLife();
         }
+        if(gp.gameState==gp.characterState){
+            drawCharacterScreen();
+        }
+    }
+
+    private void drawCharacterScreen(){
+        final int frameX = gp.tileSize*2;
+        final int frameY = gp.tileSize;
+        final int frameWidth = gp.tileSize*5;
+        final int frameHeight = gp.tileSize*10;
+
+        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+
+        g.setColor(Color.white);
+        g.setFont(g.getFont().deriveFont(20f));
+
+        final int lineHeight = 34;
+        int textX = frameX+20;
+        int textY = frameY+lineHeight*2;
+
+        // Stat Title
+        textY = drawCharacterStatTitle("Level",textX,textY,lineHeight);
+        textY = drawCharacterStatTitle("Life",textX,textY,lineHeight);
+        textY = drawCharacterStatTitle("Strength",textX,textY,lineHeight);
+        textY = drawCharacterStatTitle("Dexterity",textX,textY,lineHeight);
+        textY = drawCharacterStatTitle("Attack",textX,textY,lineHeight);
+        textY = drawCharacterStatTitle("Defense",textX,textY,lineHeight);
+        textY = drawCharacterStatTitle("Exp",textX,textY,lineHeight);
+        textY = drawCharacterStatTitle("Next Level",textX,textY,lineHeight);
+        textY = drawCharacterStatTitle("Coin",textX,textY,lineHeight);
+        textY+=15;
+        textY = drawCharacterStatTitle("Weapon",textX,textY,lineHeight);
+        textY+=15;
+        textY = drawCharacterStatTitle("Shield",textX,textY,lineHeight);
+
+        // Stat Values
+        textY = frameY+lineHeight*2;
+        int tailX = (frameX+frameWidth) - 30;
+
+        g.setFont(g.getFont().deriveFont(26f));
+        textY=drawCharacterStatValue(String.valueOf(gp.player.level),tailX,textY,lineHeight);
+        textY=drawCharacterStatValue(String.valueOf(gp.player.life)+"/"+String.valueOf(gp.player.maxLife),tailX,textY,lineHeight);
+        textY=drawCharacterStatValue(String.valueOf(gp.player.strength),tailX,textY,lineHeight);
+        textY=drawCharacterStatValue(String.valueOf(gp.player.dexterity),tailX,textY,lineHeight);
+        textY=drawCharacterStatValue(String.valueOf(gp.player.attack),tailX,textY,lineHeight);
+        textY=drawCharacterStatValue(String.valueOf(gp.player.defense),tailX,textY,lineHeight);
+        textY=drawCharacterStatValue(String.valueOf(gp.player.exp),tailX,textY,lineHeight);
+        textY=drawCharacterStatValue(String.valueOf(gp.player.nextLevelExp),tailX,textY,lineHeight);
+        textY=drawCharacterStatValue(String.valueOf(gp.player.coin),tailX,textY,lineHeight);
+
+        g.drawImage(gp.player.currentWeapon.down1,tailX-gp.tileSize,textY-15,null);
+        textY+=(lineHeight);
+        g.drawImage(gp.player.curerntShield.down1,tailX-gp.tileSize,textY,null);
+
+
+        
+
+    }
+
+    public int drawCharacterStatTitle(String text,int textX,int textY,int lineHeight){
+        g.drawString(text,textX,textY);
+        return textY+lineHeight;
+    }
+
+    public int drawCharacterStatValue(String text,int tailX,int textY,int lineHeight){
+        int textX = getXforAlignRightText(text,tailX);
+        g.drawString(text,textX,textY);
+
+        return textY+lineHeight;
     }
 
     private void drawPlayerLife() {
@@ -214,6 +283,11 @@ public class UI {
     public int getXforCenteredText(String text){
         int len = (int)g.getFontMetrics().getStringBounds(text,g).getWidth();
         return gp.screenWidth/2 - len/2;
+    }
+
+    public int getXforAlignRightText(String text,int tailX){
+        int len = (int)g.getFontMetrics().getStringBounds(text,g).getWidth();
+        return tailX-len;
     }
 
     public void drawDialogueScreen(){

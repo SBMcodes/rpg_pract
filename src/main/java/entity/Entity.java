@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Entity {
-    String id;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public BufferedImage attackUp1,attackUp2,attackDown1,attackDown2,attackLeft1,attackLeft2
             , attackRight1, attackRight2;
@@ -36,7 +35,6 @@ public abstract class Entity {
     public int worldX, worldY;
     // Position of entity on screen
     public int screenX, screenY;
-    public int speed;
     public String direction = "down";
     // Imported from SuperObject
     public boolean collision = false;
@@ -52,9 +50,28 @@ public abstract class Entity {
     public GamePanel gp;
 
 
-    // useful when an entity hits another entity
+
+    // CHARACTER ATTRIBUTES
     // 0 - player   1 - npc   2 - monster
+    // useful when an entity hits another entity
     public int entityType = 1;
+    public String id;
+    public int speed;
+    public int level=1;
+    public int strength=1;
+    public int dexterity=1;
+    public int attack;
+    public int defense;
+    public int exp=0;
+    public int nextLevelExp=5;
+    public int coin=0;
+    public Entity currentWeapon;
+    public Entity curerntShield;
+
+    // ITEM ATTRIBUTES
+    public int attackValue=0;
+    public int defenseValue=0;
+
 
     public Entity(GamePanel gp, String id) {
         this.id = id;
@@ -96,15 +113,35 @@ public abstract class Entity {
         switch (dir){
             case "up":
                 this.worldY-=5;
+                gp.cChecker.checkTile(this);
+                if(this.collisionOn){
+                    this.worldY+=5;
+                    this.collisionOn=false;
+                }
                 break;
             case "down":
                 this.worldY+=5;
+                gp.cChecker.checkTile(this);
+                if(this.collisionOn){
+                    this.worldY-=5;
+                    this.collisionOn=false;
+                }
                 break;
             case "left":
                 this.worldX-=5;
+                gp.cChecker.checkTile(this);
+                if(this.collisionOn){
+                    this.worldX+=5;
+                    this.collisionOn=false;
+                }
                 break;
             case "right":
                 this.worldX+=5;
+                gp.cChecker.checkTile(this);
+                if(this.collisionOn){
+                    this.worldX-=5;
+                    this.collisionOn=false;
+                }
                 break;
         }
     }
@@ -215,6 +252,7 @@ public abstract class Entity {
         }
 
         collisionOn = false;
+
 
         gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this, false);
