@@ -19,13 +19,15 @@ public abstract class Entity {
     // stores x,y,width,height
     public Rectangle solidArea;
     public int solidAreaDefaultX, solidAreaDefaultY;
-    public Rectangle attackArea;
+    public Rectangle attackArea = new Rectangle(0,0,0,0);
 
 
 
     public boolean collisionOn = false;
     public int maxLife=0;
     public int life=0;
+    public int maxMana=0;
+    public int mana=0;
 
     public boolean invincible = false;
     int invincibleCount = 0;;
@@ -55,6 +57,15 @@ public abstract class Entity {
     // 0 - player   1 - npc   2 - monster
     // useful when an entity hits another entity
     public int entityType = 1;
+    public final int typePlayer = 0;
+    public final int typeNpc = 1;
+    public final int typeMonster = 2;
+    public final int typeSword = 3;
+    public final int typeAxe = 4;
+    public final int typeShield = 5;
+    public final int typeConsumable = 6;
+
+
     public String id;
     public int speed;
     public int level=1;
@@ -67,6 +78,9 @@ public abstract class Entity {
     public int coin=0;
     public Entity currentWeapon;
     public Entity curerntShield;
+    public Projectile projectile;
+    public int projectileUseCost;
+    public boolean isProjectileAlive=false;
 
     // ITEM ATTRIBUTES
     public int attackValue=0;
@@ -106,11 +120,10 @@ public abstract class Entity {
     public void setAction() {
     }
 
-    public void gotHit(String dir){
+    public void gotHit(String dir,Entity entity){
         if(!this.invincible && this.life>=0){
-            int damage = gp.player.attack-this.defense;
+            int damage = entity.attack-this.defense;
             if(damage<0){
-                damage=0;
                 return;
             }
             this.invincible=true;
@@ -254,6 +267,8 @@ public abstract class Entity {
             }
         }
     }
+
+    public void use(Entity entity){}
 
     public void update() {
         actionCounter++;

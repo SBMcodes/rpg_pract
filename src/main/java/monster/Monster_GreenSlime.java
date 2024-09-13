@@ -18,7 +18,7 @@ public class Monster_GreenSlime extends Entity {
         exp=2;
         collision=true;
 
-        entityType=2;
+        entityType=typeMonster;
 
         solidArea = new Rectangle();
         solidArea.x=3;

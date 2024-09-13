@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.OBJ_Fireball;
 import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
@@ -20,7 +21,7 @@ public class Player extends Entity{
     public final int screenX,screenY;
 
     public ArrayList<Entity> inventory = new ArrayList<>();
-//    public final int maxInventorySize = 20;
+    public final int maxInventorySize = 20;
 
     // Getting KeyHandler & GamePanel to update & draw entity
     public Player(GamePanel gp,KeyHandler keyH){
@@ -44,6 +45,8 @@ public class Player extends Entity{
 
         this.collisionOn=false;
 
+        projectile = new OBJ_Fireball(gp);
+
 
         setDefaultValues();
         getPlayerImage();
@@ -60,22 +63,25 @@ public class Player extends Entity{
         this.maxLife=6;
         this.life=this.maxLife;
 
+        entityType = typePlayer;
+
         currentWeapon = new OBJ_Sword_Normal(gp);
         curerntShield = new OBJ_Shield_Wood(gp);
 
-       getAttack();
-       getDefense();
+        setInventoryItems();
 
-       setInventoryItems();
+        getAttack();
+        getDefense();
     }
 
     public void setInventoryItems(){
         inventory.add(currentWeapon);
         inventory.add(curerntShield);
-        inventory.add(new OBJ_Key(gp));
     }
 
     public void getAttack(){
+        // Attack area will change depending upon the weapon
+        attackArea = currentWeapon.attackArea;
         attack = strength* currentWeapon.attackValue;
     }
 
@@ -227,6 +233,12 @@ public class Player extends Entity{
             spriteCounter=6;
         }
 
+        if(keyH.pressed.get("space") && !projectile.isProjectileAlive){
+            gp.playSoundEffect(8);
+            projectile.set(worldX,worldY,direction,true,this);
+            gp.projectileList.add(projectile);
+        }
+
         gp.eventHandler.checkEvent();
 
         increaseInvincibleCount();
@@ -263,7 +275,7 @@ public class Player extends Entity{
             int monsterIdx = gp.cChecker.checkEntity(this,gp.monster);
 
             if(monsterIdx!=-1){
-                gp.monster[monsterIdx].gotHit(this.direction);
+                gp.monster[monsterIdx].gotHit(this.direction,this);
             }
 
             worldX=currentWorldX;
@@ -284,14 +296,17 @@ public class Player extends Entity{
 
 
     public void reducePlayerLife(int attack){
-        int damage = attack-this.defense;
-        if(damage<0){
-            damage=0;
+        if(!this.invincible){
+            int damage = attack-this.defense;
+            if(damage<0){
+                damage=0;
+            }
+            this.life-=damage;
+            this.invincible=true;
+            gp.playSoundEffect(6);
         }
-        this.life-=damage;
-        this.invincible=true;
-        gp.playSoundEffect(6);
     }
+
     public void interactMonster(boolean isInvincible,int attack){
         if(!this.invincible && !isInvincible){
             reducePlayerLife(attack);
@@ -305,7 +320,16 @@ public class Player extends Entity{
 //    }
 
     public void interactObj(int idx){
-
+        if(idx!=-1){
+            if(inventory.size()<this.maxInventorySize){
+                inventory.add(gp.obj[idx]);
+                gp.ui.addMessage("Got a "+gp.obj[idx].id);
+                gp.obj[idx]=null;
+            }
+            else{
+                gp.ui.addMessage("Your inventory is full!");
+            }
+        }
     }
 
     public void interactNpc(int idx){
@@ -387,6 +411,25 @@ public class Player extends Entity{
         if(gp.testing.get("isTesting") && gp.testing.get("window")){
             g.setColor(Color.RED);
             g.fillRect(screenX+solidArea.x,screenY+solidArea.x,solidArea.width,solidArea.height);
+        }
+    }
+
+    public void selectItem(){
+        int itemIdx = gp.ui.getCurItemIndex();
+
+        if(itemIdx<this.inventory.size()){
+            Entity selectedItem = this.inventory.get(itemIdx);
+            if(selectedItem.entityType==typeSword || selectedItem.entityType==typeAxe){
+                currentWeapon = selectedItem;
+                getAttack();
+            }
+            else if(selectedItem.entityType==typeShield){
+                curerntShield=selectedItem;
+                getDefense();
+            } else if (selectedItem.entityType==typeConsumable) {
+                selectedItem.use(this);
+                inventory.remove(itemIdx);
+            }
         }
     }
 

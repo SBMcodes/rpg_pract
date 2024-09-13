@@ -164,6 +164,12 @@ public class UI {
 
         // PLAYER ITEMS
         for (int i = 0; i < gp.player.inventory.size(); i++) {
+
+            if(gp.player.inventory.get(i)==gp.player.currentWeapon || gp.player.inventory.get(i)==gp.player.curerntShield){
+                g.setColor(new Color(144, 129, 199));
+                g.fillRoundRect(slotX,slotY,gp.tileSize,gp.tileSize,10,10);
+            }
+
             g.drawImage(gp.player.inventory.get(i).down1,slotX,slotY,null);
             slotX+=slotSize;
 
@@ -394,7 +400,7 @@ public class UI {
 
         x+=gp.tileSize;
         y+=gp.tileSize;
-        g.setFont(g.getFont().deriveFont(Font.PLAIN,24f));
+        g.setFont(g.getFont().deriveFont(Font.PLAIN,20f));
         for(String line:currentDialogue.split("\n")){
             g.drawString(line,x,y);
             y+=40;

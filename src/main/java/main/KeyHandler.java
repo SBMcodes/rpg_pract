@@ -18,6 +18,7 @@ public class KeyHandler implements KeyListener {
         pressed.put("left",false);
         pressed.put("right",false);
         pressed.put("enter",false);
+        pressed.put("space",false);
 
         pressed.put("menu_up",false);
         pressed.put("menu_down",false);
@@ -62,6 +63,9 @@ public class KeyHandler implements KeyListener {
         }
         else if(code==KeyEvent.VK_ENTER){
             pressed.replace("enter",true);
+        }
+        else if(code==KeyEvent.VK_SPACE){
+            pressed.replace("space",true);
         }
         else if(code==KeyEvent.VK_ESCAPE){
             gp.gameState=gp.pauseState;
@@ -141,6 +145,8 @@ public class KeyHandler implements KeyListener {
                 gp.ui.slotCol=0;
             }
             gp.playSoundEffect(8);
+        } else if (code==KeyEvent.VK_ENTER) {
+            gp.player.selectItem();
         }
     }
 
@@ -162,6 +168,8 @@ public class KeyHandler implements KeyListener {
          else if (code==KeyEvent.VK_ENTER) {
             pressed.replace("enter",false);
         }
-
+        else if (code==KeyEvent.VK_SPACE) {
+            pressed.replace("space",false);
+        }
     }
 }
