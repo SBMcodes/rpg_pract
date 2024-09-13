@@ -12,21 +12,14 @@ public class AssetManager {
     }
 
     public void setObject(){
-        gp.obj[0] = new OBJ_Key(gp);
-        gp.obj[0].worldX = 25*gp.tileSize;
-        gp.obj[0].worldY = 23*gp.tileSize;
 
-        gp.obj[1] = new OBJ_Key(gp);
-        gp.obj[1].worldX = 21*gp.tileSize;
-        gp.obj[1].worldY = 19*gp.tileSize;
+        gp.obj[0] = new OBJ_Potion_Red(gp);
+        gp.obj[0].worldX = 26*gp.tileSize;
+        gp.obj[0].worldY = 21*gp.tileSize;
 
-        gp.obj[2] = new OBJ_Potion_Red(gp);
-        gp.obj[2].worldX = 26*gp.tileSize;
-        gp.obj[2].worldY = 21*gp.tileSize;
-
-        gp.obj[3] = new OBJ_Shield_Blue(gp);
-        gp.obj[3].worldX = 33*gp.tileSize;
-        gp.obj[3].worldY = 21*gp.tileSize;
+        gp.obj[1] = new OBJ_Shield_Blue(gp);
+        gp.obj[1].worldX = 33*gp.tileSize;
+        gp.obj[1].worldY = 21*gp.tileSize;
     }
 
     public void setNPC(){

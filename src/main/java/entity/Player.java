@@ -234,7 +234,7 @@ public class Player extends Entity{
         }
 
         if(keyH.pressed.get("space") && !projectile.isProjectileAlive){
-            gp.playSoundEffect(8);
+            gp.playSoundEffect(9);
             projectile.set(worldX,worldY,direction,true,this);
             gp.projectileList.add(projectile);
         }

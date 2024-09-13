@@ -2,6 +2,7 @@ package monster;
 
 import entity.Entity;
 import main.GamePanel;
+import object.OBJ_Rock;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -27,6 +28,8 @@ public class Monster_GreenSlime extends Entity {
         solidArea.height=30;
         solidAreaDefaultX=solidArea.x;
         solidAreaDefaultY=solidArea.y;
+
+        projectile = new OBJ_Rock(gp);
 
         getImage();
     }
@@ -74,6 +77,12 @@ public class Monster_GreenSlime extends Entity {
             direction="left";
         } else{
             direction="right";
+        }
+
+        i =  random.nextInt(100)+1;
+        if(i>60 && !projectile.isProjectileAlive){
+            projectile.set(worldX,worldY,direction,true,this);
+            gp.projectileList.add(this.projectile);
         }
     }
 

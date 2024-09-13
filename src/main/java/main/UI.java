@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import object.OBJ_ManaCrystal;
 import object.Obj_Heart;
 import object.SuperObject;
 
@@ -33,7 +34,7 @@ public class UI {
 
     public int titleScreenState = 0; // Title Screen Sub State
 
-    BufferedImage heartFull,heartHalf,heartBlank;
+    BufferedImage heartFull,heartHalf,heartBlank,manaBlank,manaFull;
 
     ArrayList<String> messages = new ArrayList<>();
     ArrayList<Integer> messagesCounter = new ArrayList<>();
@@ -61,6 +62,10 @@ public class UI {
         heartFull = heart.image;
         heartHalf = heart.image2;
         heartBlank = heart.image3;
+
+        Entity mana = new OBJ_ManaCrystal(gp);
+        manaBlank = mana.image;
+        manaFull = mana.image2;
     }
 
     public void draw(Graphics2D g){
@@ -252,6 +257,16 @@ public class UI {
             drawLife+=1;
             g.drawImage(heartHalf,x,y,null);
             x+=60;
+        }
+
+        // MANA
+        x = gp.tileSize/2;
+        y+=gp.tileSize;
+        if(gp.player.projectile.isProjectileAlive){
+            g.drawImage(manaBlank,x,y,null);
+        }
+        else{
+            g.drawImage(manaFull,x,y,null);
         }
     }
 
