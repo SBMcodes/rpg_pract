@@ -184,6 +184,9 @@ public class GamePanel extends JPanel implements Runnable{
                     if(monster[i].life<=0 && !monster[i].invincible){
                         ui.addMessage("Killed a "+monster[i].id);
                         this.player.addExp(monster[i].exp);
+
+                        monster[i].checkDrop();
+
                         monster[i]=null;
                     }
                 }

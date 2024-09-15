@@ -6,10 +6,11 @@ import main.GamePanel;
 import java.awt.image.BufferedImage;
 
 public class OBJ_Potion_Red extends Entity {
-    int value = 2;
     public OBJ_Potion_Red(GamePanel gp) {
         super(gp, "Red Potion");
+
         entityType=this.typeConsumable;
+        value=2;
 
         down1 = setImage("/images/objects/potion_red.png");
         imageMap.put("down", new BufferedImage[]{down1});

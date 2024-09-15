@@ -23,8 +23,12 @@ public class Sound {
         soundUrl[8] = getClass().getResource("/sounds/cursor.wav");
 
         soundUrl[9] = getClass().getResource("/sounds/burning.wav");
+
+        // Its done to initialize the sound system
+        setFile(0);
     }
 
+    // Can be optimized by pre fetching the sounds during start
     public void setFile(int idx){
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundUrl[idx]);

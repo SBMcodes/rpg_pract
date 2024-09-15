@@ -321,6 +321,11 @@ public class Player extends Entity{
 
     public void interactObj(int idx){
         if(idx!=-1){
+            if(gp.obj[idx].entityType==typePickup){
+                gp.obj[idx].use(this);
+                gp.obj[idx]=null;
+                return;
+            }
             if(inventory.size()<this.maxInventorySize){
                 inventory.add(gp.obj[idx]);
                 gp.ui.addMessage("Got a "+gp.obj[idx].id);

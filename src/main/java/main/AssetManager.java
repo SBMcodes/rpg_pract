@@ -20,6 +20,14 @@ public class AssetManager {
         gp.obj[1] = new OBJ_Shield_Blue(gp);
         gp.obj[1].worldX = 33*gp.tileSize;
         gp.obj[1].worldY = 21*gp.tileSize;
+
+        gp.obj[2] = new OBJ_CoinBronze(gp);
+        gp.obj[2].worldX = 36*gp.tileSize;
+        gp.obj[2].worldY = 22*gp.tileSize;
+
+        gp.obj[3] = new Obj_Heart(gp);
+        gp.obj[3].worldX = 22*gp.tileSize;
+        gp.obj[3].worldY = 29*gp.tileSize;
     }
 
     public void setNPC(){

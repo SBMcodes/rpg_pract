@@ -15,18 +15,14 @@ public class Obj_Heart extends Entity {
         down1 = image;
         imageMap.put("down", new BufferedImage[]{down1});
 
-//        try {
-//            image = ImageIO.read(getClass().getResourceAsStream("/images/objects/heart_full.png"));
-//            image = UtilityTool.scaleImage(image,gp.tileSize,gp.tileSize);
-//
-//            image2 = ImageIO.read(getClass().getResourceAsStream("/images/objects/heart_half.png"));
-//            image2 = UtilityTool.scaleImage(image2,gp.tileSize,gp.tileSize);
-//
-//            image3 = ImageIO.read(getClass().getResourceAsStream("/images/objects/heart_blank.png"));
-//            image3 = UtilityTool.scaleImage(image3,gp.tileSize,gp.tileSize);
-//        }
-//        catch (Exception e){
-//            System.out.println(e);
-//        }
+        entityType=typePickup;
+        value=2;
+    }
+
+    @Override
+    public void use(Entity e){
+        gp.playSoundEffect(1);
+        gp.ui.addMessage("Health +"+value);
+        e.life=Math.min(e.life+value,e.maxLife);
     }
 }

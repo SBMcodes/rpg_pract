@@ -2,7 +2,9 @@ package monster;
 
 import entity.Entity;
 import main.GamePanel;
+import object.OBJ_CoinBronze;
 import object.OBJ_Rock;
+import object.Obj_Heart;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -90,4 +92,15 @@ public class Monster_GreenSlime extends Entity {
     public void update() {
         super.update();
     }
+
+    @Override
+    public void checkDrop(){
+        int randI = new Random().nextInt(100)+1;
+        if(randI<50){
+            dropItem(new OBJ_CoinBronze(gp));
+        } else if (randI<75) {
+            dropItem(new Obj_Heart(gp));
+        }
     }
+
+}

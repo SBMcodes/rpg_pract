@@ -64,6 +64,7 @@ public abstract class Entity {
     public final int typeAxe = 4;
     public final int typeShield = 5;
     public final int typeConsumable = 6;
+    public final int typePickup = 7;
 
 
     public String id;
@@ -83,6 +84,7 @@ public abstract class Entity {
     public boolean isProjectileAlive=false;
 
     // ITEM ATTRIBUTES
+    public int value =0;
     public int attackValue=0;
     public int defenseValue=0;
 
@@ -305,6 +307,21 @@ public abstract class Entity {
             increaseSpriteCounter();
 
             increaseInvincibleCount();
+        }
+    }
+
+    public void checkDrop(){
+
+    }
+
+    public void dropItem(Entity droppedItem){
+        for (int i = 0; i < gp.obj.length ; i++) {
+            if(gp.obj[i]==null){
+                gp.obj[i]=droppedItem;
+                gp.obj[i].worldX=worldX;
+                gp.obj[i].worldY=worldY;
+                break;
+            }
         }
     }
 }
