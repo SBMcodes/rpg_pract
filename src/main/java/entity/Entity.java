@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -327,5 +328,39 @@ public abstract class Entity {
                 break;
             }
         }
+    }
+
+
+    // Particle methods blueprint
+    public Color getParticleColor(){
+        return null;
+    }
+    public int getParticleSize(){
+        return 0;
+    }
+    public int getParticleSpeed(){
+        return 0;
+    }
+    public int getParticleMaxLife(){
+        return 0;
+    }
+
+    public void generateParticle(Entity generator,Entity target){
+        Color color = generator.getParticleColor();
+        int size = generator.getParticleSize();
+        int speed = generator.getParticleSpeed();
+        int maxLife = generator.getParticleMaxLife();
+
+        Particle p1 = new Particle(gp,generator,color,size,speed+1,maxLife,-1,-2);
+        Particle p2 = new Particle(gp,generator,color,size,speed+1,maxLife,1,-2);
+        Particle p3 = new Particle(gp,generator,color,size,speed,maxLife,-1,1);
+        Particle p4 = new Particle(gp,generator,color,size,speed,maxLife,1,1);
+        Particle p5 = new Particle(gp,generator,color,size,speed+1,maxLife,-2,0);
+        Particle p6 = new Particle(gp,generator,color,size,speed+1,maxLife,2,0);
+        Particle p7 = new Particle(gp,generator,color,size,speed,maxLife,0,-3);
+
+
+
+        gp.particleList.addAll(Arrays.asList(p1,p2,p3,p4,p5,p6,p7));
     }
 }

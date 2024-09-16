@@ -2,10 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import object.OBJ_Fireball;
-import object.OBJ_Key;
-import object.OBJ_Shield_Wood;
-import object.OBJ_Sword_Normal;
+import object.*;
 import tile.InteractiveTile;
 import tile.Interactive_Trunk;
 
@@ -67,7 +64,8 @@ public class Player extends Entity{
 
         entityType = typePlayer;
 
-        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentWeapon = new OBJ_Axe(gp);
+//        currentWeapon = new OBJ_Sword_Normal(gp);
         curerntShield = new OBJ_Shield_Wood(gp);
 
         setInventoryItems();
@@ -471,6 +469,10 @@ public class Player extends Entity{
             gp.iTile[idx].playSe();
             gp.iTile[idx].life--;
             gp.iTile[idx].invincible=true;
+
+            // Generate Particle
+            generateParticle(gp.iTile[idx],gp.iTile[idx]);
+
             if(gp.iTile[idx].life==0){
                 gp.iTile[idx]=gp.iTile[idx].getDestroyedForm();
             }
