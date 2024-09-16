@@ -156,7 +156,7 @@ public class UI {
 
     private void drawInventory(){
         // FRAME
-        int frameX = 9*gp.tileSize,frameY=gp.tileSize;
+        int frameX = 12*gp.tileSize,frameY=gp.tileSize;
         int frameWidth=6*gp.tileSize,frameHeight=5*gp.tileSize;
         drawSubWindow(frameX,frameY,frameWidth,frameHeight);
 

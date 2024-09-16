@@ -64,8 +64,7 @@ public class Player extends Entity{
 
         entityType = typePlayer;
 
-        currentWeapon = new OBJ_Axe(gp);
-//        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentWeapon = new OBJ_Sword_Normal(gp);
         curerntShield = new OBJ_Shield_Wood(gp);
 
         setInventoryItems();

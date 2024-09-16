@@ -2,13 +2,12 @@ package main;
 
 import entity.Entity;
 import entity.Player;
-import object.SuperObject;
 import tile.InteractiveTile;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
+import java.awt.image.BufferedImage;
 import java.util.*;
 
 // Acts as a game screen
@@ -23,17 +22,17 @@ public class GamePanel extends JPanel implements Runnable{
     public final int tileSize = originalTitleSize*scale; // 48*48 tile
 
     // 4:3 ratio
-    public final int maxScreenCol=16;
+    public final int maxScreenCol=20;
     public final int maxScreenRow=12;
 
-    public final int screenWidth = maxScreenCol*tileSize; // 768px
+    public final int screenWidth = maxScreenCol*tileSize; // 960px
     public final int screenHeight = maxScreenRow*tileSize; // 576px
 
     // World Settings
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
 
-    public final int worldWidth = maxWorldCol*tileSize; // 768px
+    public final int worldWidth = maxWorldCol*tileSize;
     public final int worldHeight = maxWorldRow*tileSize;
 
     public final CollisionChecker cChecker = new CollisionChecker(this);
@@ -85,13 +84,20 @@ public class GamePanel extends JPanel implements Runnable{
     public final int characterState=4;
 
 
-    public GamePanel(){
+    // For Full Screen
+    int screenWidth2 = screenWidth;
+    int screenHeight2 = screenHeight;
+    BufferedImage tempScreen;
+    Graphics2D g2;
 
-        init();
-        setupGame();
+
+    JFrame window;
+    public GamePanel(JFrame window){
+
+        this.window=window;
 
         // sets the dimension of the screen
-        this.setPreferredSize(new Dimension(screenWidth,screenHeight));
+        this.setPreferredSize(new Dimension(screenWidth2,screenHeight2));
         this.setBackground(Color.BLACK);
         // buffering improves rendering performance
         this.setDoubleBuffered(true);
@@ -100,16 +106,34 @@ public class GamePanel extends JPanel implements Runnable{
         // panel is now focused to receive key input
         this.setFocusable(true);
 
-        startGameThread();
+//        startGameThread();
         this.playMusic(0);
+
     }
 
     public void setupGame(){
+        init();
         assetManager.setObject();
         assetManager.setNPC();
         assetManager.setMonster();
         assetManager.setInteractiveTile();
         gameState = titleState;
+
+        // Draw to Temp Screen -> Draw Temp Screen to window
+        tempScreen = new BufferedImage(screenWidth2,screenHeight2,BufferedImage.TYPE_INT_ARGB);
+        g2 = (Graphics2D) tempScreen.getGraphics();
+
+        if(Settings.fullScreen){
+            setFullScreen();
+        }
+    }
+
+    public void setFullScreen(){
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        gd.setFullScreenWindow(window);
+        screenWidth2=window.getWidth();
+        screenHeight2=window.getHeight();
     }
 
 
@@ -143,7 +167,9 @@ public class GamePanel extends JPanel implements Runnable{
             // 2. Draw: draw screen with updated info
 
             // This is how we call paintComponent inside JPanel
-            repaint();
+//            repaint();
+            drawToTempScreen(); // Draw to buffered image
+            drawToScreen(); // Draw buffered image to the screen
 
 
             // Other than this there is also delta accumulator method which we
@@ -240,13 +266,15 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
-    // Graphics has many functions to draw object on screen
-    @Override
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        // Graphics2D extends Graphics and provides more functionality over Graphics
-        Graphics2D g2 = (Graphics2D)g;
+    public void drawToScreen(){
+        Graphics g = getGraphics();
+        if(g!=null){
+            g.drawImage(tempScreen,0,0,screenWidth2,screenHeight2,null);
+            g.dispose();
+        }
+    }
 
+    public void drawToTempScreen(){
         if(gameState==titleState){
             tileManager.drawTitleScreenTiles(g2);
             ui.draw(g2);
@@ -316,9 +344,19 @@ public class GamePanel extends JPanel implements Runnable{
 
         }
 
-        // Releases system resources its holding after every frame
-        g2.dispose();
+
     }
+
+//    // Graphics has many functions to draw object on screen
+//    @Override
+//    public void paintComponent(Graphics g){
+//        super.paintComponent(g);
+//        // Graphics2D extends Graphics and provides more functionality over Graphics
+//        Graphics2D g2 = (Graphics2D)g;
+//
+//        // Releases system resources its holding after every frame
+//        g2.dispose();
+//    }
 
     public void playMusic(int idx){
         if(Settings.music){

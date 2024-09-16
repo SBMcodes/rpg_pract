@@ -59,18 +59,18 @@ public class AssetManager {
     public void setInteractiveTile(){
         int i=0;
         gp.iTile[i]=new Interactive_DryTree(gp);
-        gp.iTile[i].worldX=27*gp.tileSize;
-        gp.iTile[i].worldY=12*gp.tileSize;
+        gp.iTile[i].worldX=28*gp.tileSize;
+        gp.iTile[i].worldY=20*gp.tileSize;
         i++;
 
         gp.iTile[i]=new Interactive_DryTree(gp);
         gp.iTile[i].worldX=28*gp.tileSize;
-        gp.iTile[i].worldY=12*gp.tileSize;
+        gp.iTile[i].worldY=21*gp.tileSize;
         i++;
 
         gp.iTile[i]=new Interactive_DryTree(gp);
-        gp.iTile[i].worldX=29*gp.tileSize;
-        gp.iTile[i].worldY=12*gp.tileSize;
+        gp.iTile[i].worldX=28*gp.tileSize;
+        gp.iTile[i].worldY=22*gp.tileSize;
         i++;
 
         gp.iTile[i]=new Interactive_DryTree(gp);
