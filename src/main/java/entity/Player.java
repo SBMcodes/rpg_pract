@@ -6,6 +6,8 @@ import object.OBJ_Fireball;
 import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
+import tile.InteractiveTile;
+import tile.Interactive_Trunk;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -122,15 +124,29 @@ public class Player extends Entity{
 
     public void getPlayerAttackImage(){
         try {
-            attackUp1 = setImage("/images/player/boy_attack_up_1.png",gp.tileSize,gp.tileSize*2);
-            attackUp2 = setImage("/images/player/boy_attack_up_2.png",gp.tileSize,gp.tileSize*2);
-            attackDown1 = setImage("/images/player/boy_attack_down_1.png",gp.tileSize,gp.tileSize*2);
-            attackDown2 = setImage("/images/player/boy_attack_down_2.png",gp.tileSize,gp.tileSize*2);
+            if(this.currentWeapon.entityType==this.typeSword){
+                attackUp1 = setImage("/images/player/boy_attack_up_1.png",gp.tileSize,gp.tileSize*2);
+                attackUp2 = setImage("/images/player/boy_attack_up_2.png",gp.tileSize,gp.tileSize*2);
+                attackDown1 = setImage("/images/player/boy_attack_down_1.png",gp.tileSize,gp.tileSize*2);
+                attackDown2 = setImage("/images/player/boy_attack_down_2.png",gp.tileSize,gp.tileSize*2);
 
-            attackLeft1 = setImage("/images/player/boy_attack_left_1.png",gp.tileSize*2,gp.tileSize);
-            attackLeft2 = setImage("/images/player/boy_attack_left_2.png",gp.tileSize*2,gp.tileSize);
-            attackRight1 = setImage("/images/player/boy_attack_right_1.png",gp.tileSize*2,gp.tileSize);
-            attackRight2 = setImage("/images/player/boy_attack_right_2.png",gp.tileSize*2,gp.tileSize);
+                attackLeft1 = setImage("/images/player/boy_attack_left_1.png",gp.tileSize*2,gp.tileSize);
+                attackLeft2 = setImage("/images/player/boy_attack_left_2.png",gp.tileSize*2,gp.tileSize);
+                attackRight1 = setImage("/images/player/boy_attack_right_1.png",gp.tileSize*2,gp.tileSize);
+                attackRight2 = setImage("/images/player/boy_attack_right_2.png",gp.tileSize*2,gp.tileSize);
+            }
+            else {
+                attackUp1 = setImage("/images/player/boy_axe_up_1.png",gp.tileSize,gp.tileSize*2);
+                attackUp2 = setImage("/images/player/boy_axe_up_2.png",gp.tileSize,gp.tileSize*2);
+                attackDown1 = setImage("/images/player/boy_axe_down_1.png",gp.tileSize,gp.tileSize*2);
+                attackDown2 = setImage("/images/player/boy_axe_down_2.png",gp.tileSize,gp.tileSize*2);
+
+                attackLeft1 = setImage("/images/player/boy_axe_left_1.png",gp.tileSize*2,gp.tileSize);
+                attackLeft2 = setImage("/images/player/boy_axe_left_2.png",gp.tileSize*2,gp.tileSize);
+                attackRight1 = setImage("/images/player/boy_axe_right_1.png",gp.tileSize*2,gp.tileSize);
+                attackRight2 = setImage("/images/player/boy_axe_right_2.png",gp.tileSize*2,gp.tileSize);
+            }
+
 
             BufferedImage[] up = {attackUp1,attackUp2};
             BufferedImage[] down = {attackDown1,attackDown2};
@@ -181,6 +197,11 @@ public class Player extends Entity{
             if(idx!=-1){
                 interactObj(idx);
             }
+
+
+            // Check Interactive tile
+            gp.cChecker.checkEntity(this,gp.iTile);
+
 
             // NPC interaction
             idx = gp.cChecker.checkEntity(this,gp.npc);
@@ -269,6 +290,11 @@ public class Player extends Entity{
             }
             solidArea.width=attackArea.width;
             solidArea.height=attackArea.height;
+
+            int iTileIdx = gp.cChecker.checkEntity(this,gp.iTile);
+            if(iTileIdx!=-1){
+                breakTile(iTileIdx);
+            }
 
             // Check monster collision with player solid area
             // We could also have get a list of indexes instead of single index
@@ -427,13 +453,26 @@ public class Player extends Entity{
             if(selectedItem.entityType==typeSword || selectedItem.entityType==typeAxe){
                 currentWeapon = selectedItem;
                 getAttack();
+                getPlayerAttackImage();
             }
             else if(selectedItem.entityType==typeShield){
                 curerntShield=selectedItem;
                 getDefense();
+//                getPlayerAttackImage();
             } else if (selectedItem.entityType==typeConsumable) {
                 selectedItem.use(this);
                 inventory.remove(itemIdx);
+            }
+        }
+    }
+
+    public void breakTile(int idx){
+        if(gp.iTile[idx].destructible && gp.iTile[idx].isCorrectItem(this) && !gp.iTile[idx].invincible){
+            gp.iTile[idx].playSe();
+            gp.iTile[idx].life--;
+            gp.iTile[idx].invincible=true;
+            if(gp.iTile[idx].life==0){
+                gp.iTile[idx]=gp.iTile[idx].getDestroyedForm();
             }
         }
     }

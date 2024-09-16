@@ -31,6 +31,8 @@ public abstract class Entity {
 
     public boolean invincible = false;
     int invincibleCount = 0;;
+    public int maxInvincibleCount=60;
+    public int blinkRate = 3;
 
 
     // Entity position on world map
@@ -235,11 +237,11 @@ public abstract class Entity {
                     image = imageMap.get("right")[spriteNum];
                     break;
             }
-            if(this.invincible && this.invincibleCount%3==0){
+            if(this.invincible && this.invincibleCount%blinkRate==0){
                 g.drawImage(image, screenX, screenY, null);
             }
             else if(!this.invincible){
-            g.drawImage(image, screenX, screenY, null);
+                g.drawImage(image, screenX, screenY, null);
             }
         }
 
@@ -260,10 +262,11 @@ public abstract class Entity {
         }
     }
 
+
     public void increaseInvincibleCount(){
         if(this.invincible){
             invincibleCount++;
-            if(invincibleCount>60){
+            if(invincibleCount>maxInvincibleCount){
                 invincibleCount=0;
                 this.invincible=false;
             }
@@ -284,6 +287,7 @@ public abstract class Entity {
 
         gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this, false);
+        gp.cChecker.checkEntity(this, gp.iTile);
         gp.cChecker.checkEntity(this, gp.npc);
         gp.cChecker.checkEntity(this, gp.monster);
         gp.cChecker.checkPlayer(this);

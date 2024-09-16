@@ -23,6 +23,7 @@ public class Sound {
         soundUrl[8] = getClass().getResource("/sounds/cursor.wav");
 
         soundUrl[9] = getClass().getResource("/sounds/burning.wav");
+        soundUrl[10] = getClass().getResource("/sounds/cuttree.wav");
 
         // Its done to initialize the sound system
         setFile(0);

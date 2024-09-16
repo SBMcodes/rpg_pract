@@ -3,6 +3,8 @@ package main;
 import entity.NPC_OldMan;
 import monster.Monster_GreenSlime;
 import object.*;
+import tile.InteractiveTile;
+import tile.Interactive_DryTree;
 
 public class AssetManager {
     public GamePanel gp;
@@ -17,7 +19,7 @@ public class AssetManager {
         gp.obj[0].worldX = 26*gp.tileSize;
         gp.obj[0].worldY = 21*gp.tileSize;
 
-        gp.obj[1] = new OBJ_Shield_Blue(gp);
+        gp.obj[1] = new OBJ_Axe(gp);
         gp.obj[1].worldX = 33*gp.tileSize;
         gp.obj[1].worldY = 21*gp.tileSize;
 
@@ -52,5 +54,37 @@ public class AssetManager {
         gp.monster[3].worldX = 38*gp.tileSize;
         gp.monster[3].worldY = 42*gp.tileSize;
 
+    }
+
+    public void setInteractiveTile(){
+        int i=0;
+        gp.iTile[i]=new Interactive_DryTree(gp);
+        gp.iTile[i].worldX=27*gp.tileSize;
+        gp.iTile[i].worldY=12*gp.tileSize;
+        i++;
+
+        gp.iTile[i]=new Interactive_DryTree(gp);
+        gp.iTile[i].worldX=28*gp.tileSize;
+        gp.iTile[i].worldY=12*gp.tileSize;
+        i++;
+
+        gp.iTile[i]=new Interactive_DryTree(gp);
+        gp.iTile[i].worldX=29*gp.tileSize;
+        gp.iTile[i].worldY=12*gp.tileSize;
+        i++;
+
+        gp.iTile[i]=new Interactive_DryTree(gp);
+        gp.iTile[i].worldX=30*gp.tileSize;
+        gp.iTile[i].worldY=12*gp.tileSize;
+        i++;
+
+        gp.iTile[i]=new Interactive_DryTree(gp);
+        gp.iTile[i].worldX=31*gp.tileSize;
+        gp.iTile[i].worldY=12*gp.tileSize;
+        i++;
+
+        gp.iTile[i]=new Interactive_DryTree(gp);
+        gp.iTile[i].worldX=32*gp.tileSize;
+        gp.iTile[i].worldY=12*gp.tileSize;
     }
 }
