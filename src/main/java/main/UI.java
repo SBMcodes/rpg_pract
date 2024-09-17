@@ -44,6 +44,8 @@ public class UI {
     public int pauseSubState=0;
     public int pauseNum = 0,maxPauseNum=4;
 
+    public int gameOverNum=0,maxGameOverNum=2;
+
 
     public UI(GamePanel gp){
         this.gp=gp;
@@ -68,7 +70,6 @@ public class UI {
         manaBlank = mana.image;
         manaFull = mana.image2;
     }
-
     public void draw(Graphics2D g){
         this.g = g;
 
@@ -89,6 +90,8 @@ public class UI {
             drawDialogueScreen();
         } else if (gp.gameState==gp.titleState) {
             drawTitleScreen();
+        } else if (gp.gameState==gp.gameOverState) {
+            this.drawGameOverScreen();
         }
         if(gp.gameState==gp.playState || gp.gameState==gp.pauseState){
             g.setFont(purisa_b);
@@ -383,6 +386,50 @@ public class UI {
 //            frameCounter=0;
 //            this.messageOn=false;
 //        }
+    }
+
+
+    public void drawGameOverScreen(){
+        g.setFont(monica);
+        g.setColor(new Color(0,0,0,150));
+        g.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+
+        g.setFont(g.getFont().deriveFont(Font.BOLD,110f));
+
+        String text="GAME OVER";
+        int x=getXforCenteredText(text),y=4*gp.tileSize;
+
+
+        g.setColor(Color.black);
+        g.drawString(text,x,y);
+        g.setColor(Color.white);
+        g.drawString(text,x-4,y-4);
+
+        g.setFont(g.getFont().deriveFont(Font.BOLD,50f));
+
+        text="RETRY";
+        x=getXforCenteredText(text);
+        y+=gp.tileSize*4;
+        if(gameOverNum==0){
+            g.drawString(">",x-35,y);
+        }
+        g.drawString(text,x,y);
+
+        text="QUIT";
+        x=getXforCenteredText(text);
+        y+=(int)(gp.tileSize*1.5);
+        if(gameOverNum==1){
+            g.drawString(">",x-35,y);
+        }
+        g.drawString(text,x,y);
+    }
+
+    public void executeGameOverCommand(){
+        if(gameOverNum==0){
+            gp.restartGame();
+        } else if (gameOverNum==1) {
+            System.exit(0);
+        }
     }
 
     public void drawPauseScreen(){

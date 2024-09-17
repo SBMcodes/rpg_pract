@@ -40,8 +40,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     final int FPS = 60;
 
-    public boolean isGameOver = false;
-
 
     public final KeyHandler keyH = new KeyHandler(this);
 
@@ -82,6 +80,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState=2;
     public final int dialogueState=3;
     public final int characterState=4;
+    public final int gameOverState=5;
 
 
     // For Full Screen
@@ -126,6 +125,18 @@ public class GamePanel extends JPanel implements Runnable{
         if(Settings.fullScreen){
             setFullScreen();
         }
+    }
+
+    public void restartGame(){
+        g2.setColor(Color.black);
+        g2.drawRect(0,0,screenWidth2,screenHeight2);
+        ui = new UI(this);
+        assetManager.setObject();
+        assetManager.setNPC();
+        assetManager.setMonster();
+        assetManager.setInteractiveTile();
+        this.player=new Player(this,keyH);
+        this.gameState=playState;
     }
 
     Integer fullScreenWidth=null,fullScreenHeight=null;

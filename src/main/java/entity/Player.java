@@ -260,6 +260,11 @@ public class Player extends Entity{
         gp.eventHandler.checkEvent();
 
         increaseInvincibleCount();
+
+        if(this.life<=0){
+            gp.gameState = gp.gameOverState;
+            gp.playSoundEffect(11);
+        }
     }
 
     private void increaseSpriteAtackCounter() {

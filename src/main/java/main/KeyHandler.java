@@ -45,6 +45,9 @@ public class KeyHandler implements KeyListener {
         else if (gp.gameState==gp.characterState) {
             characterStateEvent(code);
         }
+        else if (gp.gameState==gp.gameOverState) {
+            gameOverStateEvent(code);
+        }
 
     }
 
@@ -120,6 +123,25 @@ public class KeyHandler implements KeyListener {
                 }
                 Settings.saveConfig(gp);
             }
+        }
+    }
+
+    public void gameOverStateEvent(int code){
+        if(code==KeyEvent.VK_W){
+            gp.ui.gameOverNum+=1;
+            if(gp.ui.gameOverNum==gp.ui.maxGameOverNum){
+                gp.ui.gameOverNum=0;
+            }
+            gp.playSoundEffect(8);
+        }
+        else if(code==KeyEvent.VK_S){
+            gp.ui.gameOverNum-=1;
+            if(gp.ui.gameOverNum<0){
+                gp.ui.gameOverNum=gp.ui.maxGameOverNum-1;
+            }
+            gp.playSoundEffect(8);
+        } else if (code==KeyEvent.VK_ENTER) {
+            gp.ui.executeGameOverCommand();
         }
     }
 

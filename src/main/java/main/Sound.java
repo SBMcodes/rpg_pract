@@ -31,6 +31,8 @@ public class Sound {
         soundUrl[9] = getClass().getResource("/sounds/burning.wav");
         soundUrl[10] = getClass().getResource("/sounds/cuttree.wav");
 
+        soundUrl[11] = getClass().getResource("/sounds/gameover.wav");
+
         // Its done to initialize the sound system
         setFile(0);
     }
