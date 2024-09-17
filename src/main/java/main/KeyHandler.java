@@ -69,7 +69,7 @@ public class KeyHandler implements KeyListener {
         }
         else if(code==KeyEvent.VK_ESCAPE){
             gp.gameState=gp.pauseState;
-        } else if (code==KeyEvent.VK_T) {
+        } else if (code==KeyEvent.VK_C) {
             gp.gameState=gp.characterState;
         }
     }
@@ -77,6 +77,47 @@ public class KeyHandler implements KeyListener {
     public void pauseStateEvent(int code){
         if(code==KeyEvent.VK_ESCAPE){
             gp.gameState=gp.playState;
+        } else if (code==KeyEvent.VK_W) {
+            gp.ui.pauseNum-=1;
+            if(gp.ui.pauseNum<0){
+                gp.ui.pauseNum=gp.ui.maxPauseNum-1;
+            }
+            gp.playSoundEffect(8);
+        } else if (code==KeyEvent.VK_S) {
+            gp.ui.pauseNum+=1;
+            gp.playSoundEffect(8);
+            if(gp.ui.pauseNum==gp.ui.maxPauseNum){
+                gp.ui.pauseNum=0;
+            }
+        } else if (code==KeyEvent.VK_ENTER) {
+            gp.ui.executePauseCommand();
+        }
+        else if (code==KeyEvent.VK_A) {
+            if(gp.ui.pauseSubState==0){
+                if(gp.ui.pauseNum==1 && gp.music.volumeScale>0){
+                    gp.music.volumeScale-=1;
+                    gp.music.checkVolume();
+                    gp.playSoundEffect(8);
+                } else if(gp.ui.pauseNum==2 && gp.sound.volumeScale>0){
+                    gp.sound.volumeScale-=1;
+                    gp.sound.checkVolume();
+                    gp.playSoundEffect(8);
+                }
+            }
+        }
+        else if (code==KeyEvent.VK_D) {
+            if(gp.ui.pauseSubState==0){
+                if(gp.ui.pauseNum==1 && gp.music.volumeScale<gp.music.maxVolumeScale){
+                    gp.music.volumeScale+=1;
+                    gp.music.checkVolume();
+                    gp.playSoundEffect(8);
+                }
+                else if(gp.ui.pauseNum==2 && gp.sound.volumeScale<gp.sound.maxVolumeScale){
+                    gp.sound.volumeScale+=1;
+                    gp.sound.checkVolume();
+                    gp.playSoundEffect(8);
+                }
+            }
         }
     }
 
@@ -107,7 +148,7 @@ public class KeyHandler implements KeyListener {
     }
 
     public void characterStateEvent(int code){
-        if(code==KeyEvent.VK_T || code==KeyEvent.VK_ESCAPE){
+        if(code==KeyEvent.VK_C || code==KeyEvent.VK_ESCAPE){
             gp.gameState=gp.playState;
         }
         else if(code==KeyEvent.VK_W){

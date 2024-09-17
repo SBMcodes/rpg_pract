@@ -128,12 +128,33 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    Integer fullScreenWidth=null,fullScreenHeight=null;
     public void setFullScreen(){
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gd = ge.getDefaultScreenDevice();
-        gd.setFullScreenWindow(window);
-        screenWidth2=window.getWidth();
-        screenHeight2=window.getHeight();
+        if(fullScreenWidth==null){
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gd = ge.getDefaultScreenDevice();
+            gd.setFullScreenWindow(window);
+            screenWidth2=window.getWidth();
+            screenHeight2=window.getHeight();
+
+            fullScreenWidth=screenWidth2;
+            fullScreenHeight=screenHeight2;
+        }
+        else{
+            window.setSize(fullScreenWidth,fullScreenHeight);
+            screenWidth2=fullScreenWidth;
+            screenHeight2=fullScreenHeight;
+        }
+
+    }
+
+    public void setNormalScreen(){
+//        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        GraphicsDevice gd = ge.getDefaultScreenDevice();
+//        gd.setDisplayMode(new DisplayMode(screenWidth,screenHeight,8,60));
+        window.setSize(screenWidth,screenHeight);
+        screenWidth2=screenWidth;
+        screenHeight2=screenHeight;
     }
 
 

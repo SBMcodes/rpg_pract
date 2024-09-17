@@ -3,11 +3,9 @@ package main;
 import entity.Entity;
 import object.OBJ_ManaCrystal;
 import object.Obj_Heart;
-import object.SuperObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -42,6 +40,9 @@ public class UI {
     // Inventory Cursor
     public int maxSlotRow=4,maxSlotCol=5;
     public int slotRow=0,slotCol = 0;
+
+    public int pauseSubState=0;
+    public int pauseNum = 0,maxPauseNum=4;
 
 
     public UI(GamePanel gp){
@@ -386,14 +387,126 @@ public class UI {
 
     public void drawPauseScreen(){
         g.setFont(monica);
-        g.setFont(g.getFont().deriveFont(Font.BOLD,80f));
+        g.setFont(g.getFont().deriveFont(Font.BOLD,24f));
         g.setColor(new Color(220,220,220));
 
-        String text = "PAUSED";
-        int x = getXforCenteredText(text);
-        int y = gp.screenHeight/2;
+        int frameX = 6*gp.tileSize;
+        int frameY = gp.tileSize;
+        int frameWidth = 8*gp.tileSize;
+        int frameHeight = 10*gp.tileSize;
 
-        g.drawString(text,x,y);
+        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+
+        switch(pauseSubState){
+            case 0:
+                options_top(frameX,frameY);
+                break;
+            case 1:
+                break;
+        }
+    }
+
+    public void options_top(int frameX,int frameY){
+        int textX,textY=frameY;
+
+        g.setFont(g.getFont().deriveFont(30f));
+
+        // Title
+        String text="OPTIONS";
+        textX = getXforCenteredText(text);
+        textY+=gp.tileSize;
+        g.drawString(text,textX,textY);
+
+        // Full Screen Option
+        textX=frameX+gp.tileSize;
+        textY+=(2*gp.tileSize);
+        g.drawString("Full Screen",textX,textY);
+        if(pauseNum==0){
+            g.drawString(">",textX-25,textY);
+        }
+
+        // Music
+        textY+=(gp.tileSize);
+        g.drawString("Music",textX,textY);
+        if(pauseNum==1){
+            g.drawString(">",textX-25,textY);
+        }
+
+        // Sound
+        textY+=(gp.tileSize);
+        g.drawString("Sound",textX,textY);
+        if(pauseNum==2){
+            g.drawString(">",textX-25,textY);
+        }
+
+        // Control
+//        textY+=(gp.tileSize);
+//        g.drawString("Control",textX,textY);
+//        if(pauseNum==3){
+//            g.drawString(">",textX-25,textY);
+//        }
+
+        // Quit Game
+        textY+=(gp.tileSize);
+        g.drawString("Quit",textX,textY);
+        if(pauseNum==3){
+            g.drawString(">",textX-25,textY);
+        }
+
+        // Full Screen Check Box
+        textX = frameX + (int)(4.5*gp.tileSize);
+        textY = frameY+(2*gp.tileSize)+25;
+        g.setStroke(new BasicStroke(3));
+        g.drawRoundRect(textX,textY,gp.tileSize/2,gp.tileSize/2,5,5);
+        if(Settings.fullScreen){
+            g.fillRoundRect(textX+4,textY+4,(gp.tileSize/2)-8,(gp.tileSize/2)-8,5,5);
+        }
+
+        // Music Volume
+        textY+=gp.tileSize;
+        g.drawRoundRect(textX,textY,120,24,5,5);
+        g.fillRoundRect(textX+4,textY+4,(int)((120-8)*((float)gp.music.volumeScale/(float)gp.music.maxVolumeScale)),24-8,5,5);
+//        g.drawRoundRect(textX,textY,gp.tileSize/2,gp.tileSize/2,5,5);
+//        if(Settings.music){
+//            g.fillRoundRect(textX+4,textY+4,(gp.tileSize/2)-8,(gp.tileSize/2)-8,5,5);
+//        }
+
+        // Sound Volume
+        textY+=gp.tileSize;
+        g.drawRoundRect(textX,textY,120,24,5,5);
+        g.fillRoundRect(textX+4,textY+4,(int)((120-8)*((float)gp.sound.volumeScale/(float)gp.sound.maxVolumeScale)),24-8,5,5);
+
+//        g.drawRoundRect(textX,textY,gp.tileSize/2,gp.tileSize/2,5,5);
+//        if(Settings.sound){
+//            g.fillRoundRect(textX+4,textY+4,(gp.tileSize/2)-8,(gp.tileSize/2)-8,5,5);
+//        }
+    }
+
+    public void executePauseCommand(){
+        if(pauseNum==0){
+            Settings.fullScreen=!Settings.fullScreen;
+            if(Settings.fullScreen){
+                gp.setFullScreen();
+            }
+            else{
+                gp.setNormalScreen();
+            }
+        }
+        else if(pauseNum==1){
+//            Settings.music=!Settings.music;
+//            if(Settings.music){
+//                gp.playMusic(0);
+//            }
+//            else{
+//                gp.stopMusic();
+//            }
+        }
+        else if(pauseNum==2){
+//            Settings.sound=!Settings.sound;
+        }
+        else if(pauseNum==3){
+            System.exit(0);
+        }
     }
 
     public int getXforCenteredText(String text){

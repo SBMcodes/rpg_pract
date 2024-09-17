@@ -10,6 +10,12 @@ public class Sound {
     Clip clip;
     URL soundUrl[] = new URL[30];
 
+    // Range: -80f to 6f
+    // Realistically: -30f to 6f
+    FloatControl fc;
+    int volumeScale = 3,maxVolumeScale=5;
+    float volume;
+
     public Sound(){
         soundUrl[0] = getClass().getResource("/sounds/BlueBoyAdventure.wav");
         soundUrl[1] = getClass().getResource("/sounds/coin.wav");
@@ -35,11 +41,13 @@ public class Sound {
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundUrl[idx]);
             clip = AudioSystem.getClip();
             clip.open(ais);
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-10f);
-            if(!Settings.sound){
-                gainControl.setValue(-50f);
-            }
+            fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            this.checkVolume();
+
+//            gainControl.setValue(-10f);
+//            if(!Settings.sound){
+//                gainControl.setValue(-50f);
+//            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Setting Audio Error");
@@ -56,6 +64,30 @@ public class Sound {
 
     public void stop(){
         clip.stop();
+    }
+
+    public void checkVolume(){
+        switch (volumeScale){
+            case 0:
+                volume=-80f;
+                break;
+            case 1:
+                volume=-22f;
+                break;
+            case 2:
+                volume=-12f;
+                break;
+            case 3:
+                volume=-4f;
+                break;
+            case 4:
+                volume=0f;
+                break;
+            case 5:
+                volume=6f;
+                break;
+        }
+        fc.setValue(volume);
     }
 
 }
