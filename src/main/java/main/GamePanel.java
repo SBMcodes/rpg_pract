@@ -145,7 +145,8 @@ public class GamePanel extends JPanel implements Runnable{
             screenWidth2=fullScreenWidth;
             screenHeight2=fullScreenHeight;
         }
-
+        Settings.fullScreen=true;
+        Settings.saveConfig(this);
     }
 
     public void setNormalScreen(){
@@ -155,6 +156,8 @@ public class GamePanel extends JPanel implements Runnable{
         window.setSize(screenWidth,screenHeight);
         screenWidth2=screenWidth;
         screenHeight2=screenHeight;
+        Settings.fullScreen=false;
+        Settings.saveConfig(this);
     }
 
 

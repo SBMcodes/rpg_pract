@@ -11,9 +11,6 @@ public class Main {
 
 
         window.setTitle("RPG Adventure");
-        if(Settings.fullScreen){
-            window.setUndecorated(true);
-        }
 
         // Resizable->false
         window.setResizable(false);
@@ -22,6 +19,13 @@ public class Main {
 
 
         GamePanel gamePanel = new GamePanel(window);
+
+        Settings.loadConfig(gamePanel);
+        if(Settings.fullScreen){
+            window.setUndecorated(true);
+        }
+
+
         window.add(gamePanel);
         window.pack();
 

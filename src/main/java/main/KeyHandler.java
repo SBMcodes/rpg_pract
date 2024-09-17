@@ -103,6 +103,7 @@ public class KeyHandler implements KeyListener {
                     gp.sound.checkVolume();
                     gp.playSoundEffect(8);
                 }
+                Settings.saveConfig(gp);
             }
         }
         else if (code==KeyEvent.VK_D) {
@@ -117,6 +118,7 @@ public class KeyHandler implements KeyListener {
                     gp.sound.checkVolume();
                     gp.playSoundEffect(8);
                 }
+                Settings.saveConfig(gp);
             }
         }
     }
