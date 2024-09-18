@@ -6,88 +6,111 @@ public class EventHandler {
     GamePanel gp;
 
     // Even Trigger Rect
-    EventRect[][] eventRect;
+    EventRect[][][] eventRect;
 
     public EventHandler(GamePanel gp){
         this.gp=gp;
 
         // We could have easily used map here
-        eventRect = new EventRect[gp.maxWorldRow][gp.maxWorldCol];
+        eventRect = new EventRect[gp.maxMap][gp.maxWorldRow][gp.maxWorldCol];
 
-        for (int i = 0; i < gp.maxWorldRow ; i++) {
-            for (int j = 0; j < gp.maxWorldCol; j++) {
-                eventRect[i][j] = new EventRect();
-                eventRect[i][j].x=23;
-                eventRect[i][j].y = 23;
-                eventRect[i][j].width=2;
-                eventRect[i][j].height=2;
-                // This is dumb
-                eventRect[i][j].eventRectDefaultX = eventRect[i][j].x;
-                eventRect[i][j].eventRectDefaultY = eventRect[i][j].y;
+        for (int k = 0; k <gp.maxMap ; k++) {
+            for (int i = 0; i < gp.maxWorldRow ; i++) {
+                for (int j = 0; j < gp.maxWorldCol; j++) {
+                    eventRect[k][i][j] = new EventRect();
+                    eventRect[k][i][j].x=23;
+                    eventRect[k][i][j].y = 23;
+                    eventRect[k][i][j].width=2;
+                    eventRect[k][i][j].height=2;
+
+                    eventRect[k][i][j].eventRectDefaultX = eventRect[k][i][j].x;
+                    eventRect[k][i][j].eventRectDefaultY = eventRect[k][i][j].y;
+                }
             }
         }
+
 
     }
 
     public void drawAllEvents(Graphics2D g){
         g.setColor(Color.pink);
-        if(eventRect[16][27].init){
-            drawEvent(g,16,27);
+        if(eventRect[0][16][27].init){
+            drawEvent(g,0,16,27);
         }
-        if(eventRect[12][23].init){
-            drawEvent(g,12,23);
+        if(eventRect[0][12][23].init){
+            drawEvent(g,0,12,23);
         }
     }
 
-    private void drawEvent(Graphics2D g,int row,int col){
-        g.fillRect((col*gp.tileSize)-(gp.player.worldX-gp.player.screenX)+eventRect[row][col].x,(row*gp.tileSize)-(gp.player.worldY-gp.player.screenY)+eventRect[row][col].y,eventRect[row][col].width*2,eventRect[row][col].height*2);
+    private void drawEvent(Graphics2D g,int mapNum,int row,int col){
+        g.fillRect((col*gp.tileSize)-(gp.player.worldX-gp.player.screenX)+eventRect[mapNum][row][col].x,(row*gp.tileSize)-(gp.player.worldY-gp.player.screenY)+eventRect[mapNum][row][col].y,eventRect[mapNum][row][col].width*2,eventRect[mapNum][row][col].height*2);
     }
 
     public void checkEvent(){
-        if(hit(16,27,"right",true)){
+        // deactivate: mapEvent gets deactivated once we use
+        // it & gets activated when moved a certain distance
+        if(hit(0,16,27,"right",true)){
             damagePitEvent(gp.dialogueState);
         }
 
-//
-        if(gp.keyH.pressed.get("enter") && hit(12,23,"any",false)){
+        if(gp.keyH.pressed.get("enter") && hit(0,12,23,"any",false)){
             gp.player.attacking=false;
             healingPoolEvent(gp.dialogueState);
 
         }
+
+        if(hit(0,39,10,"up",false)){
+            teleportPlayer(1,13,12);
+        }
+
+        if(hit(1,13,12,"down",false)){
+            teleportPlayer(0,39,10);
+        }
     }
 
-    public boolean hit(int eventRow,int eventCol,String reqDirection,boolean deactivate){
+
+
+    public boolean hit(int eventMap,int eventRow,int eventCol,String reqDirection,boolean deactivate){
         boolean hit = false;
 
-        if(!eventRect[eventRow][eventCol].eventDone && !eventRect[eventRow][eventCol].eventActivated){
-            gp.player.solidArea.x = gp.player.worldX+gp.player.solidArea.x;
-            gp.player.solidArea.y = gp.player.worldY+gp.player.solidArea.y;
-            eventRect[eventRow][eventCol].x = eventCol*gp.tileSize + eventRect[eventRow][eventCol].x;
-            eventRect[eventRow][eventCol].y = eventRow*gp.tileSize + eventRect[eventRow][eventCol].y;
+        if(eventMap==gp.currentMap){
+            if(!eventRect[eventMap][eventRow][eventCol].eventDone && !eventRect[eventMap][eventRow][eventCol].eventActivated){
+                gp.player.solidArea.x = gp.player.worldX+gp.player.solidArea.x;
+                gp.player.solidArea.y = gp.player.worldY+gp.player.solidArea.y;
+                eventRect[eventMap][eventRow][eventCol].x = eventCol*gp.tileSize + eventRect[eventMap][eventRow][eventCol].x;
+                eventRect[eventMap][eventRow][eventCol].y = eventRow*gp.tileSize + eventRect[eventMap][eventRow][eventCol].y;
 
-            if(gp.player.solidArea.intersects(this.eventRect[eventRow][eventCol])){
-                if(reqDirection.equals("any") || gp.player.direction.equals(reqDirection)){
-                    hit=true;
-                    if(deactivate){
-                        eventRect[eventRow][eventCol].eventActivated=true;
+                if(gp.player.solidArea.intersects(this.eventRect[eventMap][eventRow][eventCol])){
+                    if(reqDirection.equals("any") || gp.player.direction.equals(reqDirection)){
+                        hit=true;
+                        if(deactivate){
+                            eventRect[eventMap][eventRow][eventCol].eventActivated=true;
+                        }
                     }
                 }
-            }
 
-            gp.player.solidArea.x = gp.player.solidAreaDefaultX;
-            gp.player.solidArea.y = gp.player.solidAreaDefaultY;
-            eventRect[eventRow][eventCol].x = eventRect[eventRow][eventCol].eventRectDefaultX;
-            eventRect[eventRow][eventCol].y = eventRect[eventRow][eventCol].eventRectDefaultY;
-        } else if (!eventRect[eventRow][eventCol].eventDone && eventRect[eventRow][eventCol].eventActivated) {
-            int dist = Math.max(Math.abs(gp.player.worldX-(eventCol*gp.tileSize)),Math.abs(gp.player.worldY-(eventRow*gp.tileSize)));
-            if(dist>2*gp.tileSize){
-                eventRect[eventRow][eventCol].eventActivated=false;
+                gp.player.solidArea.x = gp.player.solidAreaDefaultX;
+                gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+                eventRect[eventMap][eventRow][eventCol].x = eventRect[eventMap][eventRow][eventCol].eventRectDefaultX;
+                eventRect[eventMap][eventRow][eventCol].y = eventRect[eventMap][eventRow][eventCol].eventRectDefaultY;
+            } else if (!eventRect[eventMap][eventRow][eventCol].eventDone && eventRect[eventMap][eventRow][eventCol].eventActivated) {
+                int dist = Math.max(Math.abs(gp.player.worldX-(eventCol*gp.tileSize)),Math.abs(gp.player.worldY-(eventRow*gp.tileSize)));
+                if(dist>2*gp.tileSize){
+                    eventRect[eventMap][eventRow][eventCol].eventActivated=false;
+                }
             }
         }
 
         return hit;
     }
 
+    private void teleportPlayer(int map,int row,int col) {
+        gp.currentMap=map;
+        gp.player.worldX=gp.tileSize*col;
+        gp.player.worldY=gp.tileSize*row;
+
+        gp.playSoundEffect(12);
+    }
 
 
     public void damagePitEvent(int gameState){

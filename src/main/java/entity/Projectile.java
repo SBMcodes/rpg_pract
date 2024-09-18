@@ -39,9 +39,9 @@ public class Projectile extends Entity{
         }
 
         if(user==gp.player){
-            int idx = gp.cChecker.checkEntity(this,gp.monster);
+            int idx = gp.cChecker.checkEntity(this,gp.monster[gp.currentMap]);
             if(idx!=-1){
-                gp.monster[idx].gotHit(this.direction,this);
+                gp.monster[gp.currentMap][idx].gotHit(this.direction,this);
             }
         }
         else{

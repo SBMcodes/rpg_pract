@@ -33,6 +33,9 @@ public class Sound {
 
         soundUrl[11] = getClass().getResource("/sounds/gameover.wav");
 
+        soundUrl[12] = getClass().getResource("/sounds/stairs.wav");
+
+
         // Its done to initialize the sound system
         setFile(0);
     }

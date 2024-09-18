@@ -36,8 +36,8 @@ public class CollisionChecker {
             case "up":
 
                 entityTopRow = (entityTopWorldY-entity.speed)/gp.tileSize;
-                tileNum1 = gp.tileManager.mapTileNum[entityTopRow][entityLeftCol];
-                tileNum2 = gp.tileManager.mapTileNum[entityTopRow][entityRightCol];
+                tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityTopRow][entityLeftCol];
+                tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityTopRow][entityRightCol];
 
                 if(gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision){
                     entity.collisionOn=true;
@@ -47,8 +47,8 @@ public class CollisionChecker {
             case "down":
 
                 entityBottomRow = (entityBottomWorldY+entity.speed)/gp.tileSize;
-                tileNum1 = gp.tileManager.mapTileNum[entityBottomRow][entityLeftCol];
-                tileNum2 = gp.tileManager.mapTileNum[entityBottomRow][entityRightCol];
+                tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityBottomRow][entityLeftCol];
+                tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityBottomRow][entityRightCol];
                 if(gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision){
                     entity.collisionOn=true;
                 }
@@ -56,8 +56,8 @@ public class CollisionChecker {
             case "left":
 
                 entityLeftCol = (entityLeftWorldX-entity.speed)/gp.tileSize;
-                tileNum1 = gp.tileManager.mapTileNum[entityTopRow][entityLeftCol];
-                tileNum2 = gp.tileManager.mapTileNum[entityBottomRow][entityLeftCol];
+                tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityTopRow][entityLeftCol];
+                tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityBottomRow][entityLeftCol];
                 if(gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision){
                     entity.collisionOn=true;
                 }
@@ -65,8 +65,8 @@ public class CollisionChecker {
             case "right":
 
                 entityRightCol = (entityRightWorldX+entity.speed)/gp.tileSize;
-                tileNum1 = gp.tileManager.mapTileNum[entityTopRow][entityRightCol];
-                tileNum2 = gp.tileManager.mapTileNum[entityBottomRow][entityRightCol];
+                tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityTopRow][entityRightCol];
+                tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityBottomRow][entityRightCol];
                 if(gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision){
                     entity.collisionOn=true;
                 }
@@ -78,7 +78,7 @@ public class CollisionChecker {
         int idx=-1;
 
         int count =0;
-        for(Entity o: gp.obj){
+        for(Entity o: gp.obj[gp.currentMap]){
             if(o!=null){
 
                 // A different way to do the same stuff At the we are going to change it to default

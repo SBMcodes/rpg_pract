@@ -44,7 +44,7 @@ public class UI {
     public int pauseSubState=0;
     public int pauseNum = 0,maxPauseNum=4;
 
-    public int gameOverNum=0,maxGameOverNum=2;
+    public int gameOverNum=-1,maxGameOverNum=2;
 
 
     public UI(GamePanel gp){

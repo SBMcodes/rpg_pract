@@ -139,7 +139,7 @@ public abstract class Entity {
             case "up":
                 this.worldY-=5;
                 gp.cChecker.checkTile(this);
-                gp.cChecker.checkEntity(this,gp.monster);
+                gp.cChecker.checkEntity(this,gp.monster[gp.currentMap]);
                 if(this.collisionOn){
                     this.worldY+=5;
                     this.collisionOn=false;
@@ -148,7 +148,7 @@ public abstract class Entity {
             case "down":
                 this.worldY+=5;
                 gp.cChecker.checkTile(this);
-                gp.cChecker.checkEntity(this,gp.monster);
+                gp.cChecker.checkEntity(this,gp.monster[gp.currentMap]);
                 if(this.collisionOn){
                     this.worldY-=5;
                     this.collisionOn=false;
@@ -157,7 +157,7 @@ public abstract class Entity {
             case "left":
                 this.worldX-=5;
                 gp.cChecker.checkTile(this);
-                gp.cChecker.checkEntity(this,gp.monster);
+                gp.cChecker.checkEntity(this,gp.monster[gp.currentMap]);
                 if(this.collisionOn){
                     this.worldX+=5;
                     this.collisionOn=false;
@@ -166,7 +166,7 @@ public abstract class Entity {
             case "right":
                 this.worldX+=5;
                 gp.cChecker.checkTile(this);
-                gp.cChecker.checkEntity(this,gp.monster);
+                gp.cChecker.checkEntity(this,gp.monster[gp.currentMap]);
                 if(this.collisionOn){
                     this.worldX-=5;
                     this.collisionOn=false;
@@ -288,9 +288,9 @@ public abstract class Entity {
 
         gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this, false);
-        gp.cChecker.checkEntity(this, gp.iTile);
-        gp.cChecker.checkEntity(this, gp.npc);
-        gp.cChecker.checkEntity(this, gp.monster);
+        gp.cChecker.checkEntity(this, gp.iTile[gp.currentMap]);
+        gp.cChecker.checkEntity(this, gp.npc[gp.currentMap]);
+        gp.cChecker.checkEntity(this, gp.monster[gp.currentMap]);
         gp.cChecker.checkPlayer(this);
 
         if (!this.collisionOn) {
@@ -321,10 +321,10 @@ public abstract class Entity {
 
     public void dropItem(Entity droppedItem){
         for (int i = 0; i < gp.obj.length ; i++) {
-            if(gp.obj[i]==null){
-                gp.obj[i]=droppedItem;
-                gp.obj[i].worldX=worldX;
-                gp.obj[i].worldY=worldY;
+            if(gp.obj[gp.currentMap][i]==null){
+                gp.obj[gp.currentMap][i]=droppedItem;
+                gp.obj[gp.currentMap][i].worldX=worldX;
+                gp.obj[gp.currentMap][i].worldY=worldY;
                 break;
             }
         }

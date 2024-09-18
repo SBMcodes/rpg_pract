@@ -5,7 +5,6 @@ import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,20 +12,23 @@ import java.io.InputStreamReader;
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
-    public int[][] mapTileNum;
+    public int[][][] mapTileNum;
     public TileManager(GamePanel gp){
         this.gp=gp;
         // store n different types of tile
         tile = new Tile[50];
 
-        mapTileNum = new int[gp.maxWorldRow][gp.maxWorldCol];
-        loadMap("/maps/worldV2.txt");
+        mapTileNum = new int[gp.maxMap][gp.maxWorldRow][gp.maxWorldCol];
+
+        loadMap("/maps/worldV3.txt",0);
+        loadMap("/maps/interior01.txt",1);
+
 
         getTileImage();
     }
 
     // Read Map Text File
-    public void loadMap(String path){
+    public void loadMap(String path,int mapNum){
         try {
             InputStream is = getClass().getResourceAsStream(path);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -38,7 +40,7 @@ public class TileManager {
                 String[] numbers = line.split(" ") ;
 
                 while(col<gp.maxWorldCol){
-                    mapTileNum[row][col] = Integer.parseInt(numbers[col]);
+                    mapTileNum[mapNum][row][col] = Integer.parseInt(numbers[col]);
                     col+=1;
                 }
 
@@ -100,12 +102,9 @@ public class TileManager {
             setImage(39,"earth",false);
             setImage(40,"wall",true);
             setImage(41,"tree",true);
-
-
-
-
-
-
+            setImage(42,"hut",false);
+            setImage(43,"floor01",false);
+            setImage(44,"table01",true);
 
 
 
@@ -150,7 +149,7 @@ public class TileManager {
             if(screenX>-gp.tileSize&& screenY>-gp.tileSize && screenX<gp.screenWidth && screenY<gp.screenHeight){
 //                g.drawImage(tile[mapTileNum[worldRow][worldCol]].image,screenX,screenY,gp.tileSize,gp.tileSize,null);
                 // Optimized it by removing the scaling
-                g.drawImage(tile[mapTileNum[worldRow][worldCol]].image,screenX,screenY,null);
+                g.drawImage(tile[mapTileNum[gp.currentMap][worldRow][worldCol]].image,screenX,screenY,null);
             }
 
             worldCol++;

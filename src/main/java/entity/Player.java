@@ -197,11 +197,11 @@ public class Player extends Entity{
 
 
             // Check Interactive tile
-            gp.cChecker.checkEntity(this,gp.iTile);
+            gp.cChecker.checkEntity(this,gp.iTile[gp.currentMap]);
 
 
             // NPC interaction
-            idx = gp.cChecker.checkEntity(this,gp.npc);
+            idx = gp.cChecker.checkEntity(this,gp.npc[gp.currentMap]);
             if(idx!=-1){
                 interactNpc(idx);
             }
@@ -210,9 +210,9 @@ public class Player extends Entity{
             }
 
             // Monster interaction
-            idx = gp.cChecker.checkEntity(this,gp.monster);
+            idx = gp.cChecker.checkEntity(this,gp.monster[gp.currentMap]);
             if(idx!=-1 && !this.invincible){
-                interactMonster(gp.monster[idx].invincible,gp.monster[idx].attack);
+                interactMonster(gp.monster[gp.currentMap][idx].invincible,gp.monster[gp.currentMap][idx].attack);
             }
 
             // Event interaction
@@ -263,6 +263,7 @@ public class Player extends Entity{
 
         if(this.life<=0){
             gp.gameState = gp.gameOverState;
+            gp.stopMusic();
             gp.playSoundEffect(11);
         }
     }
@@ -293,17 +294,17 @@ public class Player extends Entity{
             solidArea.width=attackArea.width;
             solidArea.height=attackArea.height;
 
-            int iTileIdx = gp.cChecker.checkEntity(this,gp.iTile);
+            int iTileIdx = gp.cChecker.checkEntity(this,gp.iTile[gp.currentMap]);
             if(iTileIdx!=-1){
                 breakTile(iTileIdx);
             }
 
             // Check monster collision with player solid area
             // We could also have get a list of indexes instead of single index
-            int monsterIdx = gp.cChecker.checkEntity(this,gp.monster);
+            int monsterIdx = gp.cChecker.checkEntity(this,gp.monster[gp.currentMap]);
 
             if(monsterIdx!=-1){
-                gp.monster[monsterIdx].gotHit(this.direction,this);
+                gp.monster[gp.currentMap][monsterIdx].gotHit(this.direction,this);
             }
 
             worldX=currentWorldX;
@@ -349,15 +350,15 @@ public class Player extends Entity{
 
     public void interactObj(int idx){
         if(idx!=-1){
-            if(gp.obj[idx].entityType==typePickup){
-                gp.obj[idx].use(this);
-                gp.obj[idx]=null;
+            if(gp.obj[gp.currentMap][idx].entityType==typePickup){
+                gp.obj[gp.currentMap][idx].use(this);
+                gp.obj[gp.currentMap][idx]=null;
                 return;
             }
             if(inventory.size()<this.maxInventorySize){
-                inventory.add(gp.obj[idx]);
-                gp.ui.addMessage("Got a "+gp.obj[idx].id);
-                gp.obj[idx]=null;
+                inventory.add(gp.obj[gp.currentMap][idx]);
+                gp.ui.addMessage("Got a "+gp.obj[gp.currentMap][idx].id);
+                gp.obj[gp.currentMap][idx]=null;
             }
             else{
                 gp.ui.addMessage("Your inventory is full!");
@@ -366,9 +367,9 @@ public class Player extends Entity{
     }
 
     public void interactNpc(int idx){
-        if(gp.npc[idx].id=="old_man"){
+        if(gp.npc[gp.currentMap][idx].id=="old_man"){
             if(gp.keyH.pressed.get("enter")){
-                gp.npc[idx].speak();
+                gp.npc[gp.currentMap][idx].speak();
                 gp.gameState=gp.dialogueState;
             }
         }
@@ -469,16 +470,16 @@ public class Player extends Entity{
     }
 
     public void breakTile(int idx){
-        if(gp.iTile[idx].destructible && gp.iTile[idx].isCorrectItem(this) && !gp.iTile[idx].invincible){
-            gp.iTile[idx].playSe();
-            gp.iTile[idx].life--;
-            gp.iTile[idx].invincible=true;
+        if(gp.iTile[gp.currentMap][idx].destructible && gp.iTile[gp.currentMap][idx].isCorrectItem(this) && !gp.iTile[gp.currentMap][idx].invincible){
+            gp.iTile[gp.currentMap][idx].playSe();
+            gp.iTile[gp.currentMap][idx].life--;
+            gp.iTile[gp.currentMap][idx].invincible=true;
 
             // Generate Particle
-            generateParticle(gp.iTile[idx],gp.iTile[idx]);
+            generateParticle(gp.iTile[gp.currentMap][idx],gp.iTile[gp.currentMap][idx]);
 
-            if(gp.iTile[idx].life==0){
-                gp.iTile[idx]=gp.iTile[idx].getDestroyedForm();
+            if(gp.iTile[gp.currentMap][idx].life==0){
+                gp.iTile[gp.currentMap][idx]=gp.iTile[gp.currentMap][idx].getDestroyedForm();
             }
         }
     }
