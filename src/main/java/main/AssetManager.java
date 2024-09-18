@@ -21,9 +21,9 @@ public class AssetManager {
         gp.obj[mapNum][0].worldX = 26*gp.tileSize;
         gp.obj[mapNum][0].worldY = 21*gp.tileSize;
 
-        gp.obj[mapNum][1] = new OBJ_Axe(gp);
-        gp.obj[mapNum][1].worldX = 33*gp.tileSize;
-        gp.obj[mapNum][1].worldY = 21*gp.tileSize;
+//        gp.obj[mapNum][1] = new OBJ_Axe(gp);
+//        gp.obj[mapNum][1].worldX = 33*gp.tileSize;
+//        gp.obj[mapNum][1].worldY = 21*gp.tileSize;
 
         gp.obj[mapNum][2] = new OBJ_CoinBronze(gp);
         gp.obj[mapNum][2].worldX = 36*gp.tileSize;
@@ -32,6 +32,11 @@ public class AssetManager {
         gp.obj[mapNum][3] = new Obj_Heart(gp);
         gp.obj[mapNum][3].worldX = 22*gp.tileSize;
         gp.obj[mapNum][3].worldY = 29*gp.tileSize;
+
+        mapNum++;
+        gp.obj[mapNum][1] = new OBJ_Axe(gp);
+        gp.obj[mapNum][1].worldX = 10*gp.tileSize;
+        gp.obj[mapNum][1].worldY = 10*gp.tileSize;
     }
 
     public void setNPC(){

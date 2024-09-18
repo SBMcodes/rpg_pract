@@ -8,6 +8,8 @@ public class EventHandler {
     // Even Trigger Rect
     EventRect[][][] eventRect;
 
+    public int transitionMap=0,transitionRow=0,transitionCol=0;
+
     public EventHandler(GamePanel gp){
         this.gp=gp;
 
@@ -105,9 +107,10 @@ public class EventHandler {
     }
 
     private void teleportPlayer(int map,int row,int col) {
-        gp.currentMap=map;
-        gp.player.worldX=gp.tileSize*col;
-        gp.player.worldY=gp.tileSize*row;
+        gp.gameState=gp.transitionState;
+        transitionMap=map;
+        transitionRow=row;
+        transitionCol=col;
 
         gp.playSoundEffect(12);
     }

@@ -46,6 +46,7 @@ public class UI {
 
     public int gameOverNum=-1,maxGameOverNum=2;
 
+    public int transitionCounter=0;
 
     public UI(GamePanel gp){
         this.gp=gp;
@@ -93,6 +94,9 @@ public class UI {
         } else if (gp.gameState==gp.gameOverState) {
             this.drawGameOverScreen();
         }
+        else if (gp.gameState==gp.transitionState){
+            drawTransition();
+        }
         if(gp.gameState==gp.playState || gp.gameState==gp.pauseState){
             g.setFont(purisa_b);
             drawTime();
@@ -101,6 +105,21 @@ public class UI {
         if(gp.gameState==gp.characterState){
             drawCharacterScreen();
             drawInventory();
+        }
+    }
+
+    private void drawTransition() {
+
+        transitionCounter+=2;
+        g.setColor(new Color(0,0,0,transitionCounter*5));
+        g.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+
+        if(transitionCounter==50){
+            transitionCounter=0;
+            gp.gameState=gp.playState;
+            gp.currentMap=gp.eventHandler.transitionMap;
+            gp.player.worldX=gp.eventHandler.transitionCol*gp.tileSize;
+            gp.player.worldY=gp.eventHandler.transitionRow*gp.tileSize;
         }
     }
 
