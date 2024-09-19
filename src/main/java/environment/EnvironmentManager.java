@@ -14,8 +14,11 @@ public class EnvironmentManager {
         setup();
     }
 
+    public void update(){
+        lighting.update();
+    }
     public void setup(){
-        lighting= new Lighting(gp,300);
+        lighting= new Lighting(gp);
     }
 
     public void draw(Graphics2D g){

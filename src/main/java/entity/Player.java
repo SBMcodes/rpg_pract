@@ -22,6 +22,8 @@ public class Player extends Entity{
     public ArrayList<Entity> inventory = new ArrayList<>();
     public final int maxInventorySize = 20;
 
+    public boolean lightUpdated=false;
+
     // Getting KeyHandler & GamePanel to update & draw entity
     public Player(GamePanel gp,KeyHandler keyH){
         super(gp,"player");
@@ -468,6 +470,15 @@ public class Player extends Entity{
             } else if (selectedItem.entityType==typeConsumable) {
                 selectedItem.use(this);
                 inventory.remove(itemIdx);
+            }
+            else if(selectedItem.entityType==typeLight){
+                if(currentLight!=selectedItem){
+                    currentLight=selectedItem;
+                }
+                else{
+                    currentLight=null;
+                }
+                this.lightUpdated=true;
             }
         }
     }

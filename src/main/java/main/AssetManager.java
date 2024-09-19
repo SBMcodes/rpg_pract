@@ -33,6 +33,10 @@ public class AssetManager {
         gp.obj[mapNum][3].worldX = 22*gp.tileSize;
         gp.obj[mapNum][3].worldY = 29*gp.tileSize;
 
+        gp.obj[mapNum][3] = new OBJ_Lantern(gp);
+        gp.obj[mapNum][3].worldX = 18*gp.tileSize;
+        gp.obj[mapNum][3].worldY = 20*gp.tileSize;
+
         mapNum++;
         gp.obj[mapNum][1] = new OBJ_Axe(gp);
         gp.obj[mapNum][1].worldX = 10*gp.tileSize;

@@ -121,7 +121,7 @@ public class Monster_GreenSlime extends Entity {
 //            onPath=true;
 //        }
 
-        if(onPath && tileDist>20){
+        if(onPath && tileDist>12){
             onPath=false;
         }
 

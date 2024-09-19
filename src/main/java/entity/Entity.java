@@ -53,6 +53,9 @@ public abstract class Entity {
 
     public GamePanel gp;
 
+    public Entity currentLight;
+    public int lightRadius;
+
 
     // CHARACTER ATTRIBUTES
     // 0 - player   1 - npc   2 - monster
@@ -66,6 +69,7 @@ public abstract class Entity {
     public final int typeShield = 5;
     public final int typeConsumable = 6;
     public final int typePickup = 7;
+    public final int typeLight = 8;
 
 
     public String id;
@@ -374,6 +378,7 @@ public abstract class Entity {
     }
 
     public boolean stopAfterReachingGoal=true;
+
     public void searchPath(int goalRow, int goalCol) {
         int startRow = (this.worldY + solidArea.y) / gp.tileSize;
         int startCol = (this.worldX + solidArea.x) / gp.tileSize;

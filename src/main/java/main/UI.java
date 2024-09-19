@@ -193,7 +193,7 @@ public class UI {
         // PLAYER ITEMS
         for (int i = 0; i < gp.player.inventory.size(); i++) {
 
-            if(gp.player.inventory.get(i)==gp.player.currentWeapon || gp.player.inventory.get(i)==gp.player.curerntShield){
+            if(gp.player.inventory.get(i)==gp.player.currentWeapon || gp.player.inventory.get(i)==gp.player.curerntShield || gp.player.inventory.get(i)==gp.player.currentLight){
                 g.setColor(new Color(144, 129, 199));
                 g.fillRoundRect(slotX,slotY,gp.tileSize,gp.tileSize,10,10);
             }
