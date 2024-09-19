@@ -3,6 +3,7 @@ package main;
 import ai.PathFinder;
 import entity.Entity;
 import entity.Player;
+import environment.EnvironmentManager;
 import tile.InteractiveTile;
 import tile.TileManager;
 
@@ -89,6 +90,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public PathFinder pathFinder = new PathFinder(this);
 
+    public EnvironmentManager envManager = new EnvironmentManager(this);
+
 
     // For Full Screen
     int screenWidth2 = screenWidth;
@@ -123,6 +126,8 @@ public class GamePanel extends JPanel implements Runnable{
         assetManager.setNPC();
         assetManager.setMonster();
         assetManager.setInteractiveTile();
+        envManager.setup();
+
         gameState = titleState;
 
         // Draw to Temp Screen -> Draw Temp Screen to window
@@ -385,6 +390,8 @@ public class GamePanel extends JPanel implements Runnable{
             entityList.clear();
 
             eventHandler.drawAllEvents(g2);
+
+            envManager.draw(g2);
 
             // UI
             ui.draw(g2);
