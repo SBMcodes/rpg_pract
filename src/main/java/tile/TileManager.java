@@ -13,6 +13,9 @@ public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public int[][][] mapTileNum;
+
+    public boolean drawPath = true;
+
     public TileManager(GamePanel gp){
         this.gp=gp;
         // store n different types of tile
@@ -156,6 +159,18 @@ public class TileManager {
             if(worldCol==gp.maxWorldCol){
                 worldCol=0;
                 worldRow++;
+            }
+        }
+
+        if(drawPath){
+            g.setColor(new Color(255,0,0,70));
+            for (int i = 0; i <gp.pathFinder.pathList.size() ; i++) {
+                int worldX = gp.pathFinder.pathList.get(i).col*gp.tileSize;
+                int worldY = gp.pathFinder.pathList.get(i).row*gp.tileSize;
+                int screenX = (worldX+gp.player.screenX)-gp.player.worldX;
+                int screenY = (worldY+gp.player.screenY)-gp.player.worldY;
+
+                g.fillRect(screenX,screenY,gp.tileSize,gp.tileSize);
             }
         }
     }

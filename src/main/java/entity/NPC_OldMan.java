@@ -21,6 +21,9 @@ public class NPC_OldMan extends Entity{
         this(gp);
         this.worldX=worldX;
         this.worldY=worldY;
+        solidArea = new Rectangle(12,16,gp.tileSize-20,gp.tileSize-20);
+        solidAreaDefaultX=solidArea.x;
+        solidAreaDefaultY=solidArea.y;
     }
 
     public void getImage(){
@@ -63,23 +66,32 @@ public class NPC_OldMan extends Entity{
     @Override
     public void speak(){
         super.speak();
+        onPath=true;
     }
 
     @Override
     public void setAction(){
-        Random random = new Random();
-        int i =  random.nextInt(100)+1; // Range -> [1-100]
+        if(this.onPath){
+            int goalRow=9,goalCol=12;
 
-        if(i<=25){
-            direction="up";
+            searchPath(goalRow,goalCol);
         }
-        else if(i<=50){
-            direction="down";
-        } else if (i<=75) {
-            direction="left";
-        } else{
-            direction="right";
+        else{
+            Random random = new Random();
+            int i =  random.nextInt(100)+1; // Range -> [1-100]
+
+            if(i<=25){
+                direction="up";
+            }
+            else if(i<=50){
+                direction="down";
+            } else if (i<=75) {
+                direction="left";
+            } else{
+                direction="right";
+            }
         }
+
     }
 
     @Override

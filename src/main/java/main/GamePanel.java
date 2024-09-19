@@ -1,5 +1,6 @@
 package main;
 
+import ai.PathFinder;
 import entity.Entity;
 import entity.Player;
 import tile.InteractiveTile;
@@ -53,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this,keyH);
     public Entity[][] npc = new Entity[this.maxMap][10];
 
-    TileManager tileManager = new TileManager(this);
+    public TileManager tileManager = new TileManager(this);
 
     public Map<String,Boolean> testing = new HashMap<>();
 
@@ -86,6 +87,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int gameOverState=5;
     public final int transitionState=6;
 
+    public PathFinder pathFinder = new PathFinder(this);
 
 
     // For Full Screen

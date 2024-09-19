@@ -165,6 +165,9 @@ public class Player extends Entity{
 
     public void update(){
 
+//        System.out.println("Row: "+this.worldY/gp.tileSize);
+//        System.out.println("Col: "+this.worldX/gp.tileSize);
+
         if(this.attacking){
             startAttack();
         }

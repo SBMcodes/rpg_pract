@@ -14,7 +14,7 @@ public class Monster_GreenSlime extends Entity {
 
     public Monster_GreenSlime(GamePanel gp) {
         super(gp, "Green Slime");
-        speed=4;
+        speed=2;
         maxLife=3;
         life=maxLife;
         attack=2;
@@ -32,6 +32,8 @@ public class Monster_GreenSlime extends Entity {
         solidAreaDefaultY=solidArea.y;
 
         projectile = new OBJ_Rock(gp);
+
+        this.stopAfterReachingGoal=false;
 
         getImage();
     }
@@ -68,29 +70,61 @@ public class Monster_GreenSlime extends Entity {
 
     public void setAction(){
         Random random = new Random();
-        int i =  random.nextInt(100)+1; // Range -> [1-100]
 
-        if(i<=25){
-            direction="up";
+        // If the slime is angry
+        if(onPath){
+
+            int goalRow=(gp.player.worldY+gp.player.solidArea.y)/gp.tileSize;
+            int goalCol=(gp.player.worldX+gp.player.solidArea.x)/gp.tileSize;
+
+            searchPath(goalRow,goalCol);
+
+            int i =  random.nextInt(100)+1;
+            if(i>75 && !projectile.isProjectileAlive){
+                projectile.set(worldX,worldY,direction,true,this);
+                gp.projectileList.add(this.projectile);
+            }
         }
-        else if(i<=50){
-            direction="down";
-        } else if (i<=75) {
-            direction="left";
-        } else{
-            direction="right";
+        else{
+            int i =  random.nextInt(100)+1; // Range -> [1-100]
+
+            if(i<=25){
+                direction="up";
+            }
+            else if(i<=50){
+                direction="down";
+            } else if (i<=75) {
+                direction="left";
+            } else{
+                direction="right";
+            }
+
+//            i =  random.nextInt(100)+1;
+//            if(i>60 && !projectile.isProjectileAlive){
+//                projectile.set(worldX,worldY,direction,true,this);
+//                gp.projectileList.add(this.projectile);
+//            }
         }
 
-        i =  random.nextInt(100)+1;
-        if(i>60 && !projectile.isProjectileAlive){
-            projectile.set(worldX,worldY,direction,true,this);
-            gp.projectileList.add(this.projectile);
-        }
     }
 
     @Override
     public void update() {
         super.update();
+
+        // Get angry when player is near
+        int xDist = Math.abs(gp.player.worldX-this.worldX);
+        int yDist = Math.abs(gp.player.worldY-this.worldY);
+        int tileDist = (xDist+yDist)/gp.tileSize;
+
+//        if(!onPath && tileDist<5){
+//            onPath=true;
+//        }
+
+        if(onPath && tileDist>20){
+            onPath=false;
+        }
+
     }
 
     @Override
