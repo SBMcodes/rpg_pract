@@ -55,6 +55,7 @@ public abstract class Entity {
 
     public Entity currentLight;
     public int lightRadius;
+    public boolean isGlowing=false;
 
 
     // CHARACTER ATTRIBUTES

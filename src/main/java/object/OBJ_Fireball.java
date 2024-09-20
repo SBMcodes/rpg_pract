@@ -15,6 +15,7 @@ public class OBJ_Fireball extends Projectile {
         life=maxLife;
         attack=1;
         projectileUseCost=2;
+        isGlowing=true;
         getImage();
     }
 
