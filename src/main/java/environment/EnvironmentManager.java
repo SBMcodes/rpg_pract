@@ -27,6 +27,14 @@ public class EnvironmentManager {
         }
     }
 
+    public void resetCurrentEnv(){
+        if(envState==EnvironmentState.LIGHTING){
+            lighting.dayCounter=0;
+            lighting.currentLightingState=LightingState.DAY;
+            lighting.filterAlpha=0f;
+        }
+    }
+
     public void setEnvState(EnvironmentState env){
         this.envState=env;
     }

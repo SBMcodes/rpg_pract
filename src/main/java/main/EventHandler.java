@@ -48,6 +48,13 @@ public class EventHandler {
         g.fillRect((col*gp.tileSize)-(gp.player.worldX-gp.player.screenX)+eventRect[mapNum][row][col].x,(row*gp.tileSize)-(gp.player.worldY-gp.player.screenY)+eventRect[mapNum][row][col].y,eventRect[mapNum][row][col].width*2,eventRect[mapNum][row][col].height*2);
     }
 
+    public void drawEvent(Graphics2D g){
+        if(hit(0,12,23,"any",false)){
+            g.setColor(Color.white);
+            g.drawString("Drink Water",gp.screenWidth-240,gp.screenHeight-60);
+        }
+    }
+
     public void checkEvent(){
         // deactivate: mapEvent gets deactivated once we use
         // it & gets activated when moved a certain distance
@@ -55,10 +62,11 @@ public class EventHandler {
             damagePitEvent(gp.dialogueState);
         }
 
-        if(gp.keyH.pressed.get("enter") && hit(0,12,23,"any",false)){
-            gp.player.attacking=false;
-            healingPoolEvent(gp.dialogueState);
-
+        if(hit(0,12,23,"any",false)){
+            if(gp.keyH.pressed.get("enter")){
+                gp.player.attacking=false;
+                healingPoolEvent(gp.dialogueState);
+            }
         }
 
         if(hit(0,39,10,"up",false)){

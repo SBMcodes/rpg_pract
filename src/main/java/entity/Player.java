@@ -447,6 +447,8 @@ public class Player extends Entity{
             g.drawImage(image,tempScreenX,tempScreenY,null);
         }
 
+        gp.eventHandler.drawEvent(g);
+
         if(gp.testing.get("isTesting") && gp.testing.get("window")){
             g.setColor(Color.RED);
             g.fillRect(screenX+solidArea.x,screenY+solidArea.x,solidArea.width,solidArea.height);

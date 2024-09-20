@@ -64,6 +64,12 @@ public class KeyHandler implements KeyListener {
         else if(code==KeyEvent.VK_D){
             pressed.replace("right",true);
         }
+        else if(code==KeyEvent.VK_M){
+            gp.gameState=gp.mapState;
+        }
+        else if(code==KeyEvent.VK_X){
+            gp.gameMap.miniMapOn=!gp.gameMap.miniMapOn;
+        }
         else if(code==KeyEvent.VK_ENTER){
             pressed.replace("enter",true);
         }
@@ -230,6 +236,9 @@ public class KeyHandler implements KeyListener {
         }
         else if(code==KeyEvent.VK_D){
             pressed.replace("right",false);}
+        else if(code==KeyEvent.VK_M){
+            gp.gameState=gp.playState;
+        }
          else if (code==KeyEvent.VK_ENTER) {
             pressed.replace("enter",false);
         }

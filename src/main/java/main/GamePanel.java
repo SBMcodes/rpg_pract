@@ -4,6 +4,7 @@ import ai.PathFinder;
 import entity.Entity;
 import entity.Player;
 import environment.EnvironmentManager;
+import tile.GameMap;
 import tile.InteractiveTile;
 import tile.TileManager;
 
@@ -11,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
-import java.util.stream.Collectors;
 
 // Acts as a game screen
 public class GamePanel extends JPanel implements Runnable{
@@ -78,6 +78,12 @@ public class GamePanel extends JPanel implements Runnable{
     Sound sound = new Sound();
     Sound music = new Sound();
 
+    public PathFinder pathFinder = new PathFinder(this);
+
+    public EnvironmentManager envManager = new EnvironmentManager(this);
+
+    public GameMap gameMap = new GameMap(this);
+
     // GameState
     public int gameState;
     public final int titleState = 0;
@@ -87,10 +93,9 @@ public class GamePanel extends JPanel implements Runnable{
     public final int characterState=4;
     public final int gameOverState=5;
     public final int transitionState=6;
+    public final int mapState=7;
 
-    public PathFinder pathFinder = new PathFinder(this);
 
-    public EnvironmentManager envManager = new EnvironmentManager(this);
 
 
     // For Full Screen
@@ -143,6 +148,8 @@ public class GamePanel extends JPanel implements Runnable{
         g2.setColor(Color.black);
         g2.drawRect(0,0,screenWidth2,screenHeight2);
         ui = new UI(this);
+        this.currentMap=0;
+        envManager.resetCurrentEnv();
 //        assetManager.setObject();
         assetManager.setNPC();
         assetManager.setMonster();
@@ -332,8 +339,9 @@ public class GamePanel extends JPanel implements Runnable{
         if(gameState==titleState){
             tileManager.drawTitleScreenTiles(g2);
             ui.draw(g2);
-        }
-        else{
+        } else if (gameState==mapState) {
+            gameMap.drawFullMap(g2);
+        } else{
             // Tiles
             tileManager.draw(g2);
             for (InteractiveTile t: iTile[currentMap]){
@@ -392,6 +400,8 @@ public class GamePanel extends JPanel implements Runnable{
             entityList.clear();
 
             eventHandler.drawAllEvents(g2);
+
+            gameMap.drawMiniMap(g2);
 
             envManager.draw(g2);
 
