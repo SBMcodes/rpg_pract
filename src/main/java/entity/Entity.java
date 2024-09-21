@@ -47,8 +47,9 @@ public abstract class Entity {
 
     public int spriteNum = 0, spriteCounter = 0, actionCounter = 0;
 
-    public String[] dialogues = new String[20];
-    int dialogueIndex = 0;
+    public String[][] dialogues = new String[20][20];
+    public int dialogueSet=0;
+    public int dialogueIndex = 0;
 
 
     public GamePanel gp;
@@ -195,16 +196,20 @@ public abstract class Entity {
 
 
     public void speak() {
-        if (dialogues[dialogueIndex] == null) {
-            if (dialogues[0] != null) {
-                dialogueIndex = 0;
-            } else {
-                return;
-            }
-        }
-        gp.ui.currentDialogue = dialogues[dialogueIndex];
-        dialogueIndex++;
+//        if (dialogues[dialogueIndex] == null) {
+//            if (dialogues[0] != null) {
+//                dialogueIndex = 0;
+//            } else {
+//                return;
+//            }
+//        }
+//        gp.ui.currentDialogue = dialogues[dialogueIndex];
+//        dialogueIndex++;
 
+//        facePlayer();
+    }
+
+    public void facePlayer(){
         // Change the npc direction when talking
         switch (gp.player.direction) {
             case "up":
@@ -220,6 +225,13 @@ public abstract class Entity {
                 this.direction = "left";
                 break;
         }
+    }
+
+    public void startDialogue(Entity e,int setNum){
+        gp.keyH.pressed.replace("enter",false);
+        gp.gameState=gp.dialogueState;
+        dialogueSet=setNum;
+        gp.ui.npc=e;
     }
 
     public void draw(Graphics2D g) {

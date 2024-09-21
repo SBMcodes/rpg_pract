@@ -1,9 +1,10 @@
 package main;
 
+import entity.Entity;
+
 import java.awt.*;
 
-public class EventHandler {
-    GamePanel gp;
+public class EventHandler extends Entity {
 
     // Even Trigger Rect
     EventRect[][][] eventRect;
@@ -11,7 +12,7 @@ public class EventHandler {
     public int transitionMap=0,transitionRow=0,transitionCol=0;
 
     public EventHandler(GamePanel gp){
-        this.gp=gp;
+        super(gp,"Event Handler");
 
         // We could have easily used map here
         eventRect = new EventRect[gp.maxMap][gp.maxWorldRow][gp.maxWorldCol];
@@ -31,7 +32,13 @@ public class EventHandler {
             }
         }
 
+        setDialogue();
 
+    }
+
+    public void setDialogue(){
+        dialogues[0][0]="You fall into a pit!";
+        dialogues[1][0]="You drink water\nYour life has been recovered";
     }
 
     public void drawAllEvents(Graphics2D g){
@@ -126,13 +133,15 @@ public class EventHandler {
 
     public void damagePitEvent(int gameState){
         gp.gameState=gameState;
-        gp.ui.currentDialogue="You fall into a pit!";
+//        gp.ui.currentDialogue="You fall into a pit!";
+        startDialogue(this,0);
         gp.player.life-=1;
     }
 
     private void healingPoolEvent(int gameState) {
         gp.gameState=gameState;
-        gp.ui.currentDialogue="You drink water\nYour life has been recovered";
+//        gp.ui.currentDialogue="You drink water\nYour life has been recovered";
+        startDialogue(this,1);
         gp.player.life=gp.player.maxLife;
     }
 

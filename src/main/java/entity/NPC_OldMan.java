@@ -12,6 +12,7 @@ public class NPC_OldMan extends Entity{
         super(gp,"old_man");
         speed=1;
         direction="down";
+        dialogueSet=-1;
 
         getImage();
         setDialogue();
@@ -57,16 +58,26 @@ public class NPC_OldMan extends Entity{
     }
 
     public void setDialogue(){
-        dialogues[0]="Hello, Adventurer";
-        dialogues[1]="So you want to find the treasure?";
-        dialogues[2]="I used to be a wizard but i am \nnow too old to have an adventure";
-        dialogues[3]="Well Then , Good LUCK!";
+        dialogues[0][0]="Hello, Adventurer";
+        dialogues[0][1]="So you want to find the treasure?";
+        dialogues[0][2]="I used to be a wizard but i am \nnow too old to have an adventure";
+        dialogues[0][3]="Well Then , Good LUCK!";
+
+        dialogues[1][0] = "If you become tired,rest at the water";
+        dialogues[1][1] = "But remember to not push yourself too hard";
+
+        dialogues[2][0] = "I wonder how to win this game";
     }
 
     @Override
     public void speak(){
-        super.speak();
-        onPath=true;
+//        onPath=true;
+        facePlayer();
+        startDialogue(this,dialogueSet);
+        dialogueSet++;
+        if(dialogues[dialogueSet][0]==null){
+            dialogueSet=0;
+        }
     }
 
     @Override

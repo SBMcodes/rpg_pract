@@ -24,6 +24,9 @@ public class UI {
     DecimalFormat dFormat = new DecimalFormat("#0.00");
 
     public String currentDialogue = "";
+    int charIdx=0;
+    String combinedText="";
+    public Entity npc;
 
     public int commandNum;
     public final int totalCommand=2;
@@ -595,6 +598,37 @@ public class UI {
         x+=gp.tileSize;
         y+=gp.tileSize;
         g.setFont(g.getFont().deriveFont(Font.PLAIN,20f));
+
+        if(npc.dialogues[npc.dialogueSet][npc.dialogueIndex]!=null){
+//            currentDialogue = npc.dialogues[npc.dialogueSet][npc.dialogueIndex];
+
+            char[] characters = npc.dialogues[npc.dialogueSet][npc.dialogueIndex].toCharArray();
+
+            if(charIdx<characters.length){
+                combinedText+=characters[charIdx];
+                currentDialogue=combinedText;
+//                gp.playSoundEffect(13);
+                charIdx++;
+            }
+
+            if(gp.keyH.pressed.get("enter")){
+
+                charIdx=0;
+                combinedText="";
+
+                if(gp.gameState==gp.dialogueState){
+                    npc.dialogueIndex++;
+                }
+                gp.keyH.pressed.replace("enter",false);
+            }
+        }
+        else{
+            npc.dialogueIndex=0;
+            if(gp.gameState==gp.dialogueState){
+                gp.gameState=gp.playState;
+            }
+        }
+
         for(String line:currentDialogue.split("\n")){
             g.drawString(line,x,y);
             y+=40;
